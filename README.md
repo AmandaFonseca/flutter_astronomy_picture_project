@@ -1,16 +1,26 @@
-# flutter_astronomy_picture_project
+# 🚀 flutter_astronomy_picture_project
+## 📷 Aplicativo: Imagem Astronômica do Dia
 
-A new Flutter project.
+Todos os dias, uma imagem ou fotografia diferente do nosso fascinante universo é apresentada, juntamente com uma breve explicação escrita por um astrônomo profissional.
 
-## Getting Started
+Este aplicativo foi desenvolvido com Flutter e consome a API pública da NASA APOD (Astronomy Picture of the Day).
 
-This project is a starting point for a Flutter application.
+A documentação completa da API pode ser encontrada no repositório oficial no GitHub.
 
-A few resources to get you started if this is your first Flutter project:
+## 🔭 Sobre a API
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+A aplicação utiliza a API pública da NASA:
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+👉 https://api.nasa.gov/planetary/apod
+
+## 🛠 Tecnologias e Conceitos Aplicados
+- Conceitos de Clean-architecture e TDD
+- Testes unitarios e automatizados (mock)
+- Injeção de dependencias
+- rotas
+- Consumir dados de API
+- Salvar dados localmente (SharedPreferences)
+- verificar conexão
+- Controle de estado (bloc)
+- Compartilhar conteudo
+- Salvar imagens na galeria
