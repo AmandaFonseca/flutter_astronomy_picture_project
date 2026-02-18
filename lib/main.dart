@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(const astronomyPicture());
+  runApp(const AstronomyPicture());
 }
 
-class astronomyPicture extends StatelessWidget {
-  const astronomyPicture({super.key});
+class AstronomyPicture extends StatelessWidget {
+  const AstronomyPicture({super.key});
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
