@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-abstract class Apod extends Equatable {
+class Apod extends Equatable {
   final String? copyright;
   final DateTime? date;
   final String? explanation;
@@ -10,7 +10,7 @@ abstract class Apod extends Equatable {
   final String? title;
   final String? url;
 
-  Apod({
+  const Apod({
     this.copyright,
     this.date,
     this.explanation,
