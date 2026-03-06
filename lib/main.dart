@@ -1,9 +1,11 @@
 import 'package:astronomy_picture/container_injection.dart';
 import 'package:astronomy_picture/presentation/pages/today_apod/today_apod_page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await dotenv.load(fileName: ".env");
   await setUpContainer();
   runApp(const AstronomyPicture());
 }

@@ -1,9 +1,9 @@
 import 'dart:convert';
 
+import 'package:astronomy_picture/core/constants/urls_constants.dart';
 import 'package:astronomy_picture/core/failure.dart';
 import 'package:astronomy_picture/data/datasources/today_apod/today_apod_data_source.dart';
 import 'package:astronomy_picture/data/models/apod_model.dart';
-import 'package:astronomy_picture/environment.dart';
 import 'package:http/http.dart' as http;
 
 class TodayApodDataSourceImpl implements TodayApodDataSource {
@@ -14,7 +14,7 @@ class TodayApodDataSourceImpl implements TodayApodDataSource {
   Future<ApodModel> fecthTodayApod() async {
     http.Response response;
     try {
-      response = await client.get(Uri.parse(Environment.urlBase));
+      response = await client.get(Uri.parse(UrlsConstantes.apodUrl));
     } catch (e) {
       throw ApiFailure();
     }
