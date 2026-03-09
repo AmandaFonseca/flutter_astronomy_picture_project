@@ -20,8 +20,9 @@ class _ApodVideoState extends State<ApodVideo> {
 
   @override
   void initState() {
-    url = widget.url;
     super.initState();
+    url = widget.url;
+    checkVideoPlataform();
   }
 
   @override
