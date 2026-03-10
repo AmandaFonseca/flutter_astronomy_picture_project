@@ -3,6 +3,7 @@ import 'package:astronomy_picture/domain/entities/apod.dart';
 import 'package:astronomy_picture/presentation/widgets/today_apod/apod_video.dart';
 import 'package:astronomy_picture/presentation/widgets/today_apod/apod_view_button.dart';
 import 'package:flutter/material.dart';
+import 'package:gallery_saver_plus/gallery_saver.dart';
 
 class ApodViewPage extends StatefulWidget {
   final Apod apod;
@@ -15,6 +16,8 @@ class ApodViewPage extends StatefulWidget {
 class _ApodViewPageState extends State<ApodViewPage> {
   late Apod apod;
   bool isImage = true;
+
+  String _message = '';
 
   @override
   void initState() {
@@ -36,7 +39,13 @@ class _ApodViewPageState extends State<ApodViewPage> {
         // ignore: deprecated_member_use
         backgroundColor: Colors.white.withOpacity(0.0),
         elevation: 0,
-        actions: [],
+        actions: [
+          // PopupMenuButton(
+          //   icon: Icon(Icons.more_vert, color: CustomColors.white),
+          //   color: CustomColors.black,
+          //   itemBuilder: (context) => _saveNetworkImage(),
+          // ), // PopupMenuButton
+        ],
       ),
       body: SingleChildScrollView(
         child: Container(
@@ -140,6 +149,15 @@ class _ApodViewPageState extends State<ApodViewPage> {
                       onTapCustom: () {},
                     ),
                     const SizedBox(height: 20),
+                    const SizedBox(height: 12),
+                    ElevatedButton.icon(
+                      onPressed: _saveOnGallery,
+                      icon: const Icon(Icons.download),
+                      label: const Text('Save Network Image'),
+                      style: ElevatedButton.styleFrom(
+                        padding: const EdgeInsets.all(16),
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -194,5 +212,49 @@ class _ApodViewPageState extends State<ApodViewPage> {
         ),
       );
     }
+  }
+
+  List<PopupMenuItem> buildMenuButtons() {
+    List<PopupMenuItem> list = [];
+    if (isImage) {
+      list.add(
+        PopupMenuItem(
+          textStyle: TextStyle(color: CustomColors.white),
+          onTap: saveOnGallery,
+          child: Text("Save Image on Gallery"),
+        ),
+      );
+    }
+    list.addAll([
+      PopupMenuItem(
+        textStyle: TextStyle(color: CustomColors.white),
+        onTap: shareOnlyLink,
+        child: const Text("Share media only"),
+      ), // PopupMenuItem
+      PopupMenuItem(
+        textStyle: TextStyle(color: CustomColors.white),
+        onTap: sharedAllContent,
+        child: const Text("Share All Content"),
+      ), // PopupMenuItem
+    ]);
+  }
+
+  void saveOnGallery() {
+    if (isImage) {
+      GallerySaver.saveImage(apod.url ?? apod.hdurl ?? "").then((value) {
+        if (value == true) {
+          setState(() => showSnackBar('Image save on Galery'));
+        }
+      });
+    }
+  }
+
+  void shareOnlyLink() {}
+  void sharedAllContent() {}
+
+  void showSnackBar(String msg) {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(msg)));
+    });
   }
 }
