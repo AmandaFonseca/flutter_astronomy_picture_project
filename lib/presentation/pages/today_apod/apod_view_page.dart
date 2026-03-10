@@ -237,6 +237,7 @@ class _ApodViewPageState extends State<ApodViewPage> {
         child: const Text("Share All Content"),
       ), // PopupMenuItem
     ]);
+    return list;
   }
 
   void saveOnGallery() {
