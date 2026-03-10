@@ -151,7 +151,7 @@ class _ApodViewPageState extends State<ApodViewPage> {
                     const SizedBox(height: 20),
                     const SizedBox(height: 12),
                     ElevatedButton.icon(
-                      onPressed: _saveOnGallery,
+                      onPressed: saveOnGallery,
                       icon: const Icon(Icons.download),
                       label: const Text('Save Network Image'),
                       style: ElevatedButton.styleFrom(
