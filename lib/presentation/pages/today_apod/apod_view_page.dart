@@ -1,5 +1,6 @@
 import 'package:astronomy_picture/custom_colors.dart';
 import 'package:astronomy_picture/domain/entities/apod.dart';
+import 'package:astronomy_picture/presentation/core/see_full_image.dart';
 import 'package:astronomy_picture/presentation/widgets/today_apod/apod_video.dart';
 import 'package:astronomy_picture/presentation/widgets/today_apod/apod_view_button.dart';
 import 'package:flutter/material.dart';
@@ -173,7 +174,14 @@ class _ApodViewPageState extends State<ApodViewPage> {
   Widget buildMediaType() {
     if (isImage) {
       return GestureDetector(
-        onTap: () {},
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (_) => SeeFullImage(url: apod.url ?? apod.hdurl ?? ""),
+            ),
+          );
+        },
         child: Container(
           height: MediaQuery.of(context).size.width,
           decoration: BoxDecoration(
