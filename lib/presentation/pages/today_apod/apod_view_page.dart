@@ -4,6 +4,7 @@ import 'package:astronomy_picture/presentation/widgets/today_apod/apod_video.dar
 import 'package:astronomy_picture/presentation/widgets/today_apod/apod_view_button.dart';
 import 'package:flutter/material.dart';
 import 'package:gallery_saver_plus/gallery_saver.dart';
+import 'package:share_plus/share_plus.dart';
 
 class ApodViewPage extends StatefulWidget {
   final Apod apod;
@@ -16,6 +17,7 @@ class ApodViewPage extends StatefulWidget {
 class _ApodViewPageState extends State<ApodViewPage> {
   late Apod apod;
   bool isImage = true;
+  String urlToShare = "";
 
   String _message = '';
 
@@ -40,11 +42,11 @@ class _ApodViewPageState extends State<ApodViewPage> {
         backgroundColor: Colors.white.withOpacity(0.0),
         elevation: 0,
         actions: [
-          // PopupMenuButton(
-          //   icon: Icon(Icons.more_vert, color: CustomColors.white),
-          //   color: CustomColors.black,
-          //   itemBuilder: (context) => _saveNetworkImage(),
-          // ), // PopupMenuButton
+          PopupMenuButton(
+            icon: Icon(Icons.more_vert, color: CustomColors.white),
+            color: CustomColors.black,
+            itemBuilder: (context) => buildMenuButtons(),
+          ), // PopupMenuButton
         ],
       ),
       body: SingleChildScrollView(
@@ -135,9 +137,9 @@ class _ApodViewPageState extends State<ApodViewPage> {
                   children: [
                     ApodViewButton(
                       iconCustom: Icons.hd,
-                      titleCustom: "Image in HD",
+                      titleCustom: "Show media",
                       descriptionCustom:
-                          "Images may be incomplete! Tap here to view full image",
+                          "If mediia are not able on app. Tap here to view on browser",
                       onTapCustom: () {},
                     ),
                     const SizedBox(width: 15),
@@ -151,7 +153,7 @@ class _ApodViewPageState extends State<ApodViewPage> {
                     const SizedBox(height: 20),
                     const SizedBox(height: 12),
                     ElevatedButton.icon(
-                      onPressed: _saveOnGallery,
+                      onPressed: saveOnGallery,
                       icon: const Icon(Icons.download),
                       label: const Text('Save Network Image'),
                       style: ElevatedButton.styleFrom(
@@ -219,23 +221,32 @@ class _ApodViewPageState extends State<ApodViewPage> {
     if (isImage) {
       list.add(
         PopupMenuItem(
-          textStyle: TextStyle(color: CustomColors.white),
+          value: 1,
           onTap: saveOnGallery,
-          child: Text("Save Image on Gallery"),
+          child: Text(
+            "Save Image on Gallery",
+            style: TextStyle(color: CustomColors.white),
+          ),
         ),
       );
     }
     list.addAll([
       PopupMenuItem(
-        textStyle: TextStyle(color: CustomColors.white),
+        value: 2,
         onTap: shareOnlyLink,
-        child: const Text("Share media only"),
-      ), // PopupMenuItem
+        child: Text(
+          "Share media only",
+          style: TextStyle(color: CustomColors.white),
+        ),
+      ),
       PopupMenuItem(
-        textStyle: TextStyle(color: CustomColors.white),
+        value: 3,
         onTap: sharedAllContent,
-        child: const Text("Share All Content"),
-      ), // PopupMenuItem
+        child: Text(
+          "Share All Content",
+          style: TextStyle(color: CustomColors.white),
+        ),
+      ),
     ]);
     return list;
   }
@@ -244,14 +255,31 @@ class _ApodViewPageState extends State<ApodViewPage> {
     if (isImage) {
       GallerySaver.saveImage(apod.url ?? apod.hdurl ?? "").then((value) {
         if (value == true) {
-          setState(() => showSnackBar('Image save on Galery'));
+          setState(() => showSnackBar('Image saved on Galery'));
         }
       });
     }
   }
 
-  void shareOnlyLink() {}
-  void sharedAllContent() {}
+  void shareOnlyLink() {
+    urlToShare = apod.url ?? apod.hdurl ?? "";
+
+    if (urlToShare.isNotEmpty) {
+      SharePlus.instance.share(ShareParams(text: urlToShare));
+    }
+  }
+
+  void sharedAllContent() {
+    urlToShare = apod.url ?? apod.hdurl ?? "";
+    if (urlToShare.isNotEmpty) {
+      SharePlus.instance.share(
+        ShareParams(
+          text:
+              "${apod.title}\n${apod.explanation}\n\nlink:$urlToShare\n\nby:${apod.copyright}",
+        ),
+      );
+    }
+  }
 
   void showSnackBar(String msg) {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
