@@ -1,6 +1,6 @@
 import 'package:astronomy_picture/core/failure.dart';
 import 'package:astronomy_picture/data/datasources/network/network_info.dart';
-import 'package:astronomy_picture/data/datasources/today_apod/today_apod_data_source.dart';
+import 'package:astronomy_picture/data/datasources/today_apod/today_apod_data_source_remote/today_apod_data_source.dart';
 import 'package:astronomy_picture/domain/entities/apod.dart';
 import 'package:astronomy_picture/domain/repositores/today_apod/today_apod_repository.dart';
 import 'package:dartz/dartz.dart';

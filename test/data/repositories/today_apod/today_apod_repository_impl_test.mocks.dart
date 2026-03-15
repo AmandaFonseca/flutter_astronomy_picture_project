@@ -7,7 +7,7 @@ import 'dart:async' as _i4;
 
 import 'package:astronomy_picture/data/datasources/network/network_info.dart'
     as _i5;
-import 'package:astronomy_picture/data/datasources/today_apod/today_apod_data_source.dart'
+import 'package:astronomy_picture/data/datasources/today_apod/today_apod_data_source_remote/today_apod_data_source.dart'
     as _i3;
 import 'package:astronomy_picture/data/models/apod_model.dart' as _i2;
 import 'package:mockito/mockito.dart' as _i1;

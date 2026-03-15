@@ -1,6 +1,7 @@
 import 'package:astronomy_picture/data/datasources/network/network_info.dart';
-import 'package:astronomy_picture/data/datasources/today_apod/today_apod_data_source.dart';
-import 'package:astronomy_picture/data/datasources/today_apod/today_apod_data_source_impl.dart';
+import 'package:astronomy_picture/data/datasources/today_apod/today_apod_data_source_remote/today_apod_data_source.dart';
+import 'package:astronomy_picture/data/datasources/today_apod/today_apod_data_source_remote/today_apod_data_source_impl.dart';
+
 import 'package:astronomy_picture/data/repositories/today_apod/today_apod_repository_impl.dart';
 import 'package:astronomy_picture/domain/repositores/today_apod/today_apod_repository.dart';
 import 'package:astronomy_picture/domain/usecases/today_apod/fetch_apod_today.dart';
