@@ -27,7 +27,6 @@ void main() {
   });
 
   group('function fetchTodayApod', () {
-    // com internet = sucesso ApodModel
     test("Deve retornar uma entidade Apod no lado direito do Either", () async {
       when(networkInfo.isConnected).thenAnswer((_) async => true);
       when(dataSource.fecthTodayApod()).thenAnswer((_) async => tApodModel());
@@ -36,7 +35,6 @@ void main() {
       expect(result, Right<Failure, Apod>(tApodModel()));
     });
 
-    // com internet = falhar
     test(
       "Deve retornar uma Failure no lado esquerdo do Either vindo do datasource",
       () async {
