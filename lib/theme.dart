@@ -2,17 +2,17 @@ import 'package:astronomy_picture/custom_colors.dart';
 import 'package:flutter/material.dart';
 
 class CustomTheme {
-  static getTheme() => ThemeData(
+  static ThemeData getTheme() => ThemeData(
     primaryColor: CustomColors.blue,
     primaryColorDark: CustomColors.blueDarker,
     scaffoldBackgroundColor: CustomColors.spaceBlue,
     appBarTheme: AppBarTheme(
-      color: CustomColors.black,
+      backgroundColor: CustomColors.black,
       iconTheme: IconThemeData(color: CustomColors.palePink),
     ),
     bottomNavigationBarTheme: BottomNavigationBarThemeData(
       backgroundColor: CustomColors.black,
-      unselectedItemColor: CustomColors.palePink.withOpacity(0.5),
+      unselectedItemColor: CustomColors.palePink.withValues(alpha: 0.5),
       selectedItemColor: CustomColors.palePink,
     ),
     elevatedButtonTheme: ElevatedButtonThemeData(

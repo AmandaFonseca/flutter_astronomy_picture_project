@@ -27,3 +27,5 @@ ApodModel Function() tApodModel = () => ApodModel(
   title: "Pleiades: The Seven Sisters Star Cluster",
   url: "https://apod.nasa.gov/apod/image/2602/Pleiades_Fiedosiuk_960.jpg",
 );
+
+List<Apod> Function() tListApod = () => [tApod(), tApod(), tApod()];
