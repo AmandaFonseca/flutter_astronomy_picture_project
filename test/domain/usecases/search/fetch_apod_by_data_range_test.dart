@@ -52,7 +52,7 @@ void main() {
   test(
     'Should return an Failure on Left side of Either for incorrect input',
     () async {
-      final result = await usecase("2022-5-05/2022-05-1");
+      final result = await usecase("2026-5-05/2026-05-1");
 
       expect(result, Left<Failure, Apod>(ConvertFailure()));
     },
