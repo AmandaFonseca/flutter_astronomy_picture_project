@@ -7,7 +7,7 @@ import 'dart:async' as _i4;
 
 import 'package:astronomy_picture/core/failure.dart' as _i5;
 import 'package:astronomy_picture/domain/entities/apod.dart' as _i6;
-import 'package:astronomy_picture/domain/repositores/today_apod/search/search_repository.dart'
+import 'package:astronomy_picture/domain/repositores/search/search_repository.dart'
     as _i3;
 import 'package:dartz/dartz.dart' as _i2;
 import 'package:mockito/mockito.dart' as _i1;
