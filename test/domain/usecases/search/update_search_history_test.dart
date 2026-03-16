@@ -1,5 +1,5 @@
 import 'package:astronomy_picture/core/failure.dart';
-import 'package:astronomy_picture/domain/usecases/search/update_apod_by_history.dart';
+import 'package:astronomy_picture/domain/usecases/search/update_search_history.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
@@ -10,18 +10,18 @@ import 'fetch_apod_by_data_range_test.mocks.dart';
 
 void main() {
   late MockSearchRepository repository;
-  late UpdateApodSearchHistory usecase;
+  late UpdateSearchHistory usecase;
 
   setUp(() {
     repository = MockSearchRepository();
-    usecase = UpdateApodSearchHistory(repository: repository);
+    usecase = UpdateSearchHistory(repository: repository);
   });
 
   test(
     'Deve retornar uma Lista de String no lado direito do Either.',
     () async {
       when(
-        repository.updateApodDateRange(any),
+        repository.updateSearchHistory(any),
       ).thenAnswer((_) async => Right<Failure, List<String>>(tHistoryList()));
 
       final result = await usecase(tHistoryList());
@@ -34,7 +34,7 @@ void main() {
   );
 
   test('Deve retornar uma Falha no lado esquerdo do Either.', () async {
-    when(repository.updateApodDateRange(any)).thenAnswer(
+    when(repository.updateSearchHistory(any)).thenAnswer(
       (_) async => Left<Failure, List<String>>(AccessLocalDataFailure()),
     );
 

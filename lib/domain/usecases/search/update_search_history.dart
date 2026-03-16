@@ -3,12 +3,12 @@ import 'package:astronomy_picture/domain/repositores/search/search_repository.da
 import 'package:astronomy_picture/domain/usecases/core/usecase.dart';
 import 'package:dartz/dartz.dart';
 
-class UpdateApodSearchHistory extends UseCase<List<String>, List<String>> {
+class UpdateSearchHistory extends UseCase<List<String>, List<String>> {
   final SearchRepository repository;
-  UpdateApodSearchHistory({required this.repository});
+  UpdateSearchHistory({required this.repository});
 
   @override
   Future<Either<Failure, List<String>>> call(List<String> parameter) {
-    return repository.updateApodDateRange(parameter);
+    return repository.updateSearchHistory(parameter);
   }
 }

@@ -28,12 +28,18 @@ ApodModel Function() tApodModel = () => ApodModel(
   url: "https://apod.nasa.gov/apod/image/2602/Pleiades_Fiedosiuk_960.jpg",
 );
 
-List<Apod> Function() tListApod = () => [tApod(), tApod(), tApod()];
-
 List<String> Function() tHistoryList = () => [
   "2008-09-27",
   "2008-09-27/2008-09-27",
   "2008-09-27",
+];
+
+List<Apod> Function() tListApod = () => [tApod(), tApod(), tApod()];
+
+List<ApodModel> Function() tListApodModel = () => [
+  tApodModel(),
+  tApodModel(),
+  tApodModel(),
 ];
 
 String startDateTest = "2022-05-05";

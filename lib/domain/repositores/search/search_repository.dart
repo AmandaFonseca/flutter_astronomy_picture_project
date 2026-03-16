@@ -8,8 +8,8 @@ abstract class SearchRepository {
     String startDate,
     String endDate,
   );
-  Future<Either<Failure, List<String>>> updateApodDateRange(
+  Future<Either<Failure, List<String>>> updateSearchHistory(
     List<String> historyList,
   );
-  Future<Either<Failure, List<String>>> fetchApodSearchHistory();
+  Future<Either<Failure, List<String>>> fetchSearchHistory();
 }
