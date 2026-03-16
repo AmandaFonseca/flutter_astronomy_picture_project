@@ -1,9 +1,9 @@
 import 'package:astronomy_picture/core/failure.dart';
 import 'package:astronomy_picture/domain/entities/apod.dart';
-import 'package:astronomy_picture/domain/repositores/search/search_repository.dart';
+import 'package:astronomy_picture/domain/repositores/search/fetch_apod_by_date_range.dart';
 import 'package:dartz/dartz.dart';
 
-class SearchRepositoryImpl implements SearchRepository {
+class SearchRepositoryImpl implements FetchApodByDateRange {
   @override
   Future<Either<Failure, List<String>>> fetchApodSearchHistory() {
     // TODO: implement fetchApodSearchHistory
@@ -11,11 +11,11 @@ class SearchRepositoryImpl implements SearchRepository {
   }
 
   @override
-  Future<Either<Failure, List<Apod>>> getApodDateRange(
+  Future<Either<Failure, List<Apod>>> fetchApodByDateRange(
     String startDate,
     String endDate,
   ) {
-    // TODO: implement getApodDateRange
+    // TODO: implement fetchApodByDateRange
     throw UnimplementedError();
   }
 

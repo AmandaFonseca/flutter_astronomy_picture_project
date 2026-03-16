@@ -1,34 +1,35 @@
 import 'package:astronomy_picture/core/failure.dart';
 import 'package:astronomy_picture/domain/entities/apod.dart';
-import 'package:astronomy_picture/domain/repositores/search/search_repository.dart';
+import 'package:astronomy_picture/domain/repositores/search/fetch_apod_by_date_range.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import '../../../test_values.dart';
-import 'fetch_apod_by_data_range_test.mocks.mocks.dart';
 import 'package:astronomy_picture/domain/usecases/search/fecth_apod_by_range.dart';
 
-@GenerateNiceMocks([MockSpec<SearchRepository>()])
+import 'fetch_apod_by_data_range_test.mocks.dart';
+
+@GenerateNiceMocks([MockSpec<FetchApodByDateRange>()])
 void main() {
-  late MockSearchRepository repository;
+  late MockFetchApodByDateRange repository;
   late FetchApodByRange usecase;
 
   setUp(() {
-    repository = MockSearchRepository();
+    repository = MockFetchApodByDateRange();
     usecase = FetchApodByRange(repository: repository);
   });
 
   test('Should return a list of Apod entity Right side of Either', () async {
-    // cenario
+    //cenario
     when(
-      repository.getApodDateRange(any, any),
+      repository.fetchApodByDateRange(any, any),
     ).thenAnswer((_) async => Right<Failure, List<Apod>>(tListApod()));
 
-    // ação
+    //ação
     final result = await usecase("2022-05-05/2022-05-01");
 
-    // esperado
+    //esperado
     result.fold(
       (l) {
         fail("Test failed");
@@ -41,7 +42,7 @@ void main() {
 
   test('Should return an Failure on Left side of Either', () async {
     when(
-      repository.getApodDateRange(any, any),
+      repository.fetchApodByDateRange(any, any),
     ).thenAnswer((_) async => Left<Failure, List<Apod>>(NoConnection()));
 
     final result = await usecase("2022-05-05/2022-05-01");

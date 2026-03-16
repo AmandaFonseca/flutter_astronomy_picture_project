@@ -34,7 +34,6 @@ void main() {
 
   // retorna falha
   test("Deve retornar um Failure no lado esquerdo do Either", () async {
-    // cenário
     when(
       mockTodayApodRepository.fetchTodayApod(),
     ).thenAnswer((_) async => Left<Failure, Apod>(tNoConnection()));

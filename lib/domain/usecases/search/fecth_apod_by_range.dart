@@ -1,18 +1,21 @@
 import 'package:astronomy_picture/core/failure.dart';
 import 'package:astronomy_picture/domain/entities/apod.dart';
-import 'package:astronomy_picture/domain/repositores/search/search_repository.dart';
+import 'package:astronomy_picture/domain/repositores/search/fetch_apod_by_date_range.dart';
 import 'package:astronomy_picture/domain/usecases/core/usecase.dart';
 import 'package:dartz/dartz.dart';
 
 class FetchApodByRange extends UseCase<List<Apod>, String> {
-  final SearchRepository repository;
+  final FetchApodByDateRange repository;
   FetchApodByRange({required this.repository});
 
   @override
   Future<Either<Failure, List<Apod>>> call(String parameter) async {
     final query = toStandardQuery(parameter).fold((l) => l, (r) => r);
     if (query is Map) {
-      return await repository.getApodDateRange(query['start'], query['end']);
+      return await repository.fetchApodByDateRange(
+        query['start'],
+        query['end'],
+      );
     } else {
       return Left(query as Failure);
     }

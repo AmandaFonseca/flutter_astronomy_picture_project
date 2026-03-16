@@ -6,14 +6,14 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 
 import '../../../test_values.dart';
-import 'fetch_apod_by_data_range_test.mocks.mocks.dart';
+import 'fetch_apod_by_data_range_test.mocks.dart';
 
 void main() {
-  late MockSearchRepository repository;
+  late MockFetchApodByDateRange repository;
   late FetchApodSearchHistory usecase;
 
   setUp(() {
-    repository = MockSearchRepository();
+    repository = MockFetchApodByDateRange();
     usecase = FetchApodSearchHistory(repository: repository);
   });
 
