@@ -1,26 +1,25 @@
 import 'package:astronomy_picture/core/failure.dart';
 import 'package:astronomy_picture/domain/entities/apod.dart';
-import 'package:astronomy_picture/domain/repositores/search/fetch_apod_by_date_range.dart';
+import 'package:astronomy_picture/domain/repositores/search/search_repository.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import '../../../test_values.dart';
 import 'package:astronomy_picture/domain/usecases/search/fecth_apod_by_range.dart';
-
 import 'fetch_apod_by_data_range_test.mocks.dart';
 
-@GenerateNiceMocks([MockSpec<FetchApodByDateRange>()])
+@GenerateNiceMocks([MockSpec<SearchRepository>()])
 void main() {
-  late MockFetchApodByDateRange repository;
+  late MockSearchRepository repository;
   late FetchApodByRange usecase;
 
   setUp(() {
-    repository = MockFetchApodByDateRange();
+    repository = MockSearchRepository();
     usecase = FetchApodByRange(repository: repository);
   });
 
-  test('Should return a list of Apod entity Right side of Either', () async {
+  test('Deve retornar Apod do lado direito dof Either', () async {
     //cenario
     when(
       repository.fetchApodByDateRange(any, any),
@@ -40,7 +39,7 @@ void main() {
     );
   });
 
-  test('Should return an Failure on Left side of Either', () async {
+  test('Deve retornar uma falha do lado esquerdo dof Either', () async {
     when(
       repository.fetchApodByDateRange(any, any),
     ).thenAnswer((_) async => Left<Failure, List<Apod>>(NoConnection()));
@@ -51,9 +50,9 @@ void main() {
   });
 
   test(
-    'Should return an Failure on Left side of Either for incorrect input',
+    'Deve retornar uma Falha no lado Esquerdo de Either para entrada incorreta.',
     () async {
-      final result = await usecase("2026-5-05/2026-05-1");
+      final result = await usecase("20226-2-05/2026-02-1");
 
       expect(result, Left<Failure, Apod>(ConvertFailure()));
     },

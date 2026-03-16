@@ -7,7 +7,7 @@ import 'dart:async' as _i4;
 
 import 'package:astronomy_picture/core/failure.dart' as _i5;
 import 'package:astronomy_picture/domain/entities/apod.dart' as _i6;
-import 'package:astronomy_picture/domain/repositores/search/fetch_apod_by_date_range.dart'
+import 'package:astronomy_picture/domain/repositores/search/search_repository.dart'
     as _i3;
 import 'package:dartz/dartz.dart' as _i2;
 import 'package:mockito/mockito.dart' as _i1;
@@ -32,11 +32,10 @@ class _FakeEither_0<L, R> extends _i1.SmartFake implements _i2.Either<L, R> {
     : super(parent, parentInvocation);
 }
 
-/// A class which mocks [FetchApodByDateRange].
+/// A class which mocks [SearchRepository].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockFetchApodByDateRange extends _i1.Mock
-    implements _i3.FetchApodByDateRange {
+class MockSearchRepository extends _i1.Mock implements _i3.SearchRepository {
   @override
   _i4.Future<_i2.Either<_i5.Failure, List<_i6.Apod>>> fetchApodByDateRange(
     String? startDate,

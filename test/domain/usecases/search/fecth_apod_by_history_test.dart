@@ -9,25 +9,31 @@ import '../../../test_values.dart';
 import 'fetch_apod_by_data_range_test.mocks.dart';
 
 void main() {
-  late MockFetchApodByDateRange repository;
+  late MockSearchRepository repository;
   late FetchApodSearchHistory usecase;
 
   setUp(() {
-    repository = MockFetchApodByDateRange();
+    repository = MockSearchRepository();
     usecase = FetchApodSearchHistory(repository: repository);
   });
 
-  test('Should return a List of String on  Right side of Either', () async {
-    when(
-      repository.fetchApodSearchHistory(),
-    ).thenAnswer((_) async => Right<Failure, List<String>>(tHistoryList()));
+  test(
+    'Deve retornar uma Lista de String no lado direito do Either.',
+    () async {
+      when(
+        repository.fetchApodSearchHistory(),
+      ).thenAnswer((_) async => Right<Failure, List<String>>(tHistoryList()));
 
-    final result = await usecase(NoParameter());
+      final result = await usecase(NoParameter());
 
-    result.fold((l) => fail("Test failed"), (r) => expect(r, tHistoryList()));
-  });
+      result.fold(
+        (l) => fail("Teste falhou"),
+        (r) => expect(r, tHistoryList()),
+      );
+    },
+  );
 
-  test('Should return an Failure on Left side of Either', () async {
+  test('Deve retornar uma Falha no lado esquerdo do Either.', () async {
     when(repository.fetchApodSearchHistory()).thenAnswer(
       (_) async => Left<Failure, List<String>>(AccessLocalDataFailure()),
     );

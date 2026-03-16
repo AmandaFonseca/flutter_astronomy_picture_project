@@ -1,11 +1,11 @@
 import 'package:astronomy_picture/core/failure.dart';
 import 'package:astronomy_picture/domain/entities/apod.dart';
-import 'package:astronomy_picture/domain/repositores/search/fetch_apod_by_date_range.dart';
+import 'package:astronomy_picture/domain/repositores/search/search_repository.dart';
 import 'package:astronomy_picture/domain/usecases/core/usecase.dart';
 import 'package:dartz/dartz.dart';
 
 class FetchApodByRange extends UseCase<List<Apod>, String> {
-  final FetchApodByDateRange repository;
+  final SearchRepository repository;
   FetchApodByRange({required this.repository});
 
   @override

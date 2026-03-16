@@ -35,3 +35,6 @@ List<String> Function() tHistoryList = () => [
   "2008-09-27/2008-09-27",
   "2008-09-27",
 ];
+
+String startDateTest = "2022-05-05";
+String endDateTest = "2022-05-01";
