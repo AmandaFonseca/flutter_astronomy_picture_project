@@ -39,19 +39,23 @@ class SearchRepositoryImpl implements SearchRepository {
 
   @override
   Future<Either<Failure, List<String>>> fetchSearchHistory() async {
-    try {
-      return Right(await localDataSource.fetchSearchHistory());
-    } on Failure catch (failure) {
-      return Left(failure);
-    }
+    return _callLocalDataSource(() => localDataSource.fetchSearchHistory());
   }
 
   @override
   Future<Either<Failure, List<String>>> updateSearchHistory(
     List<String> historyList,
   ) async {
+    return await _callLocalDataSource(
+      () => localDataSource.updateSearchHistory(historyList),
+    );
+  }
+
+  Future<Either<Failure, A>> _callLocalDataSource<A>(
+    Future<A> Function() func,
+  ) async {
     try {
-      return Right(await localDataSource.updateSearchHistory(historyList));
+      return Right(await func());
     } on Failure catch (failure) {
       return Left(failure);
     }
