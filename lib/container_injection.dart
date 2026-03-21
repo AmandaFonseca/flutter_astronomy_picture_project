@@ -1,4 +1,8 @@
 import 'package:astronomy_picture/data/datasources/network/network_info.dart';
+import 'package:astronomy_picture/data/datasources/seacrh/search_datasource_local/search_local_data_source.dart';
+import 'package:astronomy_picture/data/datasources/seacrh/search_datasource_local/search_local_data_source_impl.dart';
+import 'package:astronomy_picture/data/datasources/seacrh/search_datasource_remote/search_remote_data_source_.dart';
+import 'package:astronomy_picture/data/datasources/seacrh/search_datasource_remote/search_remote_data_source_impl.dart';
 import 'package:astronomy_picture/data/datasources/today_apod/today_apod_data_source_remote/today_apod_data_source.dart';
 import 'package:astronomy_picture/data/datasources/today_apod/today_apod_data_source_remote/today_apod_data_source_impl.dart';
 
@@ -9,6 +13,7 @@ import 'package:astronomy_picture/presentation/bloc/today_apod/today_apod_bloc.d
 import 'package:get_it/get_it.dart';
 import 'package:http/http.dart' as http;
 import 'package:internet_connection_checker/internet_connection_checker.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 GetIt getIt = GetIt.instance;
 
@@ -17,6 +22,8 @@ Future<void> setUpContainer() async {
   getIt.registerLazySingleton<InternetConnectionChecker>(
     () => InternetConnectionChecker(),
   );
+  final sharedPreferences = await SharedPreferences.getInstance();
+  getIt.registerSingleton<SharedPreferences>(sharedPreferences);
 
   getIt.registerLazySingleton<NetworkInfo>(
     () => NetworkInfoImpl(internetConnection: getIt()),
@@ -36,4 +43,13 @@ void apodToday() {
     () => FetchApodToday(todayApodRepository: getIt()),
   );
   getIt.registerFactory(() => TodayApodBloc(usecase: getIt()));
+}
+
+void searchFeature() {
+  getIt.registerLazySingleton<SearchLocalDataSource>(
+    () => SearchLocalDataSourceImpl(sharedPreferences: getIt()),
+  );
+  getIt.registerLazySingleton<SearchRemoteDataSource>(
+    () => SearchRemoteDataSourceImpl(client: getIt()),
+  );
 }

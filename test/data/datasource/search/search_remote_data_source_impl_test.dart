@@ -35,8 +35,8 @@ void main() {
       );
 
       final result = await remoteDataSource.fetchApodByDateRange(
-        '2025-05-05',
-        '2025-05-01',
+        '2026-03-05',
+        '2026-03-01',
       );
 
       expect(result, tListApodModel());
@@ -52,7 +52,7 @@ void main() {
 
         expect(
           () =>
-              remoteDataSource.fetchApodByDateRange('2025-05-05', '2025-05-01'),
+              remoteDataSource.fetchApodByDateRange('2026-03-05', '2026-03-01'),
           throwsA(isA<ApiFailure>()),
         );
       },
@@ -65,7 +65,7 @@ void main() {
 
         expect(
           () =>
-              remoteDataSource.fetchApodByDateRange('2025-05-05', '2025-05-01'),
+              remoteDataSource.fetchApodByDateRange('2026-03-05', '2026-03-01'),
           throwsA(isA<ApiFailure>()),
         );
       },
