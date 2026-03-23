@@ -167,35 +167,46 @@ class _ApodViewPageState extends State<ApodViewPage> {
   }
 
   Widget buildMediaType() {
-    final double imageSize = MediaQuery.of(context).size.width;
+    final double size = MediaQuery.of(context).size.width;
 
-    return Container(
-      height: imageSize,
+    final String backgroundUrl = isImage
+        ? (apod.url ?? "")
+        : (apod.thumbnailUrl ??
+              "https://spaceplace.nasa.gov/gallery-space/en/NGC2336-galaxy.en.jpg");
+
+    const borderRadius = BorderRadius.only(
+      bottomLeft: Radius.circular(30.0),
+      bottomRight: Radius.circular(30.0),
+    );
+
+    Widget content = Container(
+      height: size,
       decoration: BoxDecoration(
         image: DecorationImage(
-          image: NetworkImage(apod.url ?? ""),
+          image: NetworkImage(backgroundUrl),
           fit: BoxFit.cover,
         ),
-        borderRadius: const BorderRadius.only(
-          bottomLeft: Radius.circular(50),
-          bottomRight: Radius.circular(50),
-        ),
-        border: Border.all(color: CustomColors.white.withValues(alpha: .5)),
+        borderRadius: borderRadius,
+        border: Border.all(color: CustomColors.white.withOpacity(.5)),
       ),
-      child: isImage
-          ? GestureDetector(
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (_) =>
-                        SeeFullImage(url: apod.url ?? apod.hdurl ?? ""),
-                  ),
-                );
-              },
-            )
-          : Center(child: ApodVideo(url: apod.url ?? "")),
+      child: !isImage ? Center(child: ApodVideo(url: apod.url ?? "")) : null,
     );
+
+    if (isImage) {
+      return GestureDetector(
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (_) => SeeFullImage(url: apod.hdurl ?? apod.url ?? ""),
+            ),
+          );
+        },
+        child: content,
+      );
+    }
+
+    return content;
   }
 
   List<PopupMenuItem<int>> buildMenuButtons() {
