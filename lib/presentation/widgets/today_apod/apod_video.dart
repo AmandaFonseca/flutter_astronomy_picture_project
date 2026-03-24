@@ -3,6 +3,8 @@ import 'package:video_player/video_player.dart';
 import 'package:vimeo_video_player/vimeo_video_player.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
+enum VideoPlataform { standard, youtube, vimeo, network }
+
 class ApodVideo extends StatefulWidget {
   final String url;
   const ApodVideo({super.key, required this.url});
@@ -12,65 +14,111 @@ class ApodVideo extends StatefulWidget {
 }
 
 class _ApodVideoState extends State<ApodVideo> {
-  late String url;
   VideoPlataform videoPlataform = VideoPlataform.standard;
-
   VideoPlayerController? videoPlayerController;
   YoutubePlayerController? youtubePlayerController;
+
+  String normalizeUrl(String url) {
+    if (url.startsWith('//')) {
+      return 'https:$url';
+    }
+    return url;
+  }
 
   @override
   void initState() {
     super.initState();
-    url = widget.url;
     checkVideoPlataform();
   }
 
   @override
-  Widget build(BuildContext context) {
-    return buildVideoPlayer();
+  void dispose() {
+    videoPlayerController?.dispose();
+    youtubePlayerController?.dispose();
+    super.dispose();
   }
 
   void checkVideoPlataform() {
-    String youtubeHost = "https://www.youtube.com";
-    String vimeoHost = "https://vimeo.com";
-    if (url.substring(0, youtubeHost.length) == youtubeHost) {
+    final String rawUrl = widget.url;
+    final String url = normalizeUrl(rawUrl);
+
+    if (url.startsWith("https://www.youtube.com") ||
+        url.startsWith("https://youtu.be")) {
       videoPlataform = VideoPlataform.youtube;
+
+      final videoId = extractYoutubeId(url);
+
       youtubePlayerController = YoutubePlayerController(
         initialVideoId: YoutubePlayer.convertUrlToId(url) ?? "",
-        flags: YoutubePlayerFlags(autoPlay: false),
+        flags: const YoutubePlayerFlags(autoPlay: false),
       );
+
       setState(() {});
-    } else if (url.substring(0, vimeoHost.length) == vimeoHost) {
+    } else if (url.startsWith("https://vimeo.com")) {
       videoPlataform = VideoPlataform.vimeo;
-    } else {
+      setState(() {});
+    } else if (isDirectVideo(url)) {
+      videoPlataform = VideoPlataform.network;
+
       videoPlayerController = VideoPlayerController.networkUrl(Uri.parse(url))
-        ..initialize().then((_) {
-          setState(() {});
-        });
+        ..initialize()
+            .then((_) {
+              if (mounted) {
+                setState(() {});
+                videoPlayerController?.play();
+                videoPlayerController?.setLooping(true);
+              }
+            })
+            .catchError((error) {
+              debugPrint("Error loading video: $error");
+            });
+
+      setState(() {});
+    } else {
+      videoPlataform = VideoPlataform.standard;
+
+      debugPrint("Video format not supported.: $url");
+      setState(() {});
     }
   }
 
-  Widget buildVideoPlayer() {
-    Widget videoWidget;
-    if (videoPlataform == VideoPlataform.youtube) {
-      videoWidget = YoutubePlayer(controller: youtubePlayerController!);
-    } else if (videoPlataform == VideoPlataform.vimeo) {
-      videoWidget = VimeoVideoPlayer(url: url, autoPlay: false);
-      if (videoPlayerController!.value.hasError) {
-        videoWidget = const Text(
-          "Sorry! We can't play this video. Try open in your browser",
-        );
-      }
-    } else {
-      videoWidget = videoPlayerController!.value.isInitialized
-          ? AspectRatio(
-              aspectRatio: videoPlayerController!.value.aspectRatio,
-              child: VideoPlayer(videoPlayerController!),
-            )
-          : Container();
+  @override
+  Widget build(BuildContext context) {
+    switch (videoPlataform) {
+      case VideoPlataform.youtube:
+        return youtubePlayerController != null
+            ? YoutubePlayer(controller: youtubePlayerController!)
+            : const Center(child: CircularProgressIndicator());
+
+      case VideoPlataform.vimeo:
+        return VimeoVideoPlayer(url: widget.url, autoPlay: false);
+
+      case VideoPlataform.network:
+        if (videoPlayerController != null &&
+            videoPlayerController!.value.isInitialized) {
+          return AspectRatio(
+            aspectRatio: videoPlayerController!.value.aspectRatio,
+            child: VideoPlayer(videoPlayerController!),
+          );
+        }
+        return const Center(child: CircularProgressIndicator());
+
+      default:
+        return const Center(child: CircularProgressIndicator());
     }
-    return videoWidget;
   }
 }
 
-enum VideoPlataform { standard, youtube, vimeo }
+String extractYoutubeId(String url) {
+  final uri = Uri.parse(url);
+
+  if (uri.pathSegments.contains('embed')) {
+    return uri.pathSegments.last;
+  }
+
+  return YoutubePlayer.convertUrlToId(url) ?? '';
+}
+
+bool isDirectVideo(String url) {
+  return url.endsWith('.mp4') || url.contains('.mp4?');
+}

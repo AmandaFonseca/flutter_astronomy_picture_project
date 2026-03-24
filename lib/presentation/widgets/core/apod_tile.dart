@@ -9,6 +9,15 @@ class ApodTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final String displayImageUrl = (apod.mediaType == 'video')
+        ? (apod.thumbnailUrl ??
+              "https://spaceplace.nasa.gov/gallery-space/en/NGC2336-galaxy.en.jpg")
+        : (apod.url ?? "");
+
+    final bool isSafeImage =
+        displayImageUrl.isNotEmpty &&
+        !displayImageUrl.toLowerCase().endsWith('.mp4');
+
     return GestureDetector(
       onTap: onTap,
       child: Container(
@@ -22,64 +31,79 @@ class ApodTile extends StatelessWidget {
                 height: MediaQuery.of(context).size.width,
                 alignment: Alignment.bottomCenter,
                 decoration: BoxDecoration(
-                  image: DecorationImage(
-                    image: NetworkImage(apod.thumbnailUrl ?? apod.url!),
-                    fit: BoxFit.fitHeight,
-                  ),
+                  color: Colors.black,
+                  image: isSafeImage
+                      ? DecorationImage(
+                          image: NetworkImage(displayImageUrl),
+                          fit: BoxFit.cover,
+                        )
+                      : null,
                   borderRadius: BorderRadius.circular(30.0),
                   border: Border.all(color: CustomColors.white.withOpacity(.5)),
                 ),
-                child: Container(
-                  height: 100,
-                  decoration: BoxDecoration(
-                    color: CustomColors.black.withOpacity(.6),
-                    borderRadius: const BorderRadius.only(
-                      bottomLeft: Radius.circular(30),
-                      bottomRight: Radius.circular(30),
-                    ),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 20.0, right: 20.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        SizedBox(
-                          width: MediaQuery.of(context).size.width * .6,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              const Spacer(),
-                              Expanded(
-                                flex: 1,
-                                child: Text(
-                                  apod.title ?? "",
-                                  style: TextStyle(
-                                    color: CustomColors.white,
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.w900,
-                                  ),
-                                ),
-                              ),
-                              Expanded(
-                                flex: 1,
-                                child: Text(
-                                  apod.explanation ?? "",
-                                  maxLines: 1,
-                                  style: TextStyle(color: CustomColors.white),
-                                ),
-                              ),
-                              const Spacer(),
-                            ],
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    if (apod.mediaType == 'video')
+                      const Expanded(
+                        child: Center(
+                          child: Icon(
+                            Icons.play_circle_outline,
+                            color: Colors.white,
+                            size: 80,
                           ),
                         ),
-                        Icon(
-                          Icons.arrow_forward_ios,
-                          color: CustomColors.white,
+                      ),
+
+                    Container(
+                      height: 100,
+                      decoration: BoxDecoration(
+                        color: CustomColors.black.withOpacity(.6),
+                        borderRadius: const BorderRadius.only(
+                          bottomLeft: Radius.circular(30),
+                          bottomRight: Radius.circular(30),
                         ),
-                      ],
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            SizedBox(
+                              width: MediaQuery.of(context).size.width * .6,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    apod.title ?? "",
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: TextStyle(
+                                      color: CustomColors.white,
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w900,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 5),
+                                  Text(
+                                    apod.explanation ?? "",
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: TextStyle(color: CustomColors.white),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Icon(
+                              Icons.arrow_forward_ios,
+                              color: CustomColors.white,
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
-                  ),
+                  ],
                 ),
               ),
             ),

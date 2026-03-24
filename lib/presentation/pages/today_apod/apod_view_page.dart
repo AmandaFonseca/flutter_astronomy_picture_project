@@ -172,6 +172,7 @@ class _ApodViewPageState extends State<ApodViewPage> {
   Widget buildMediaType() {
     final double size = MediaQuery.of(context).size.width;
 
+    // 1. Determine which URL to use for the background/thumbnail
     final String backgroundUrl = isImage
         ? (apod.url ?? "")
         : (apod.thumbnailUrl ??
@@ -182,20 +183,21 @@ class _ApodViewPageState extends State<ApodViewPage> {
       bottomRight: Radius.circular(30.0),
     );
 
-    Widget content = Container(
-      height: size,
-      decoration: BoxDecoration(
-        image: DecorationImage(
-          image: NetworkImage(backgroundUrl),
-          fit: BoxFit.cover,
-        ),
-        borderRadius: borderRadius,
-        border: Border.all(color: CustomColors.white.withOpacity(.5)),
-      ),
-      child: !isImage ? Center(child: ApodVideo(url: apod.url ?? "")) : null,
-    );
+    Widget content;
 
     if (isImage) {
+      content = Container(
+        height: size,
+        decoration: BoxDecoration(
+          borderRadius: borderRadius,
+          border: Border.all(color: CustomColors.white.withOpacity(.5)),
+          image: DecorationImage(
+            image: NetworkImage(backgroundUrl),
+            fit: BoxFit.cover,
+          ),
+        ),
+      );
+
       return GestureDetector(
         onTap: () {
           Navigator.push(
@@ -207,9 +209,25 @@ class _ApodViewPageState extends State<ApodViewPage> {
         },
         child: content,
       );
-    }
+    } else {
+      content = Container(
+        height: size,
+        decoration: BoxDecoration(
+          color: Colors.black,
+          borderRadius: borderRadius,
+          border: Border.all(color: CustomColors.white.withOpacity(.5)),
+          image: !backgroundUrl.endsWith('.mp4')
+              ? DecorationImage(
+                  image: NetworkImage(backgroundUrl),
+                  fit: BoxFit.cover,
+                )
+              : null,
+        ),
+        child: Center(child: ApodVideo(url: apod.url ?? "")),
+      );
 
-    return content;
+      return content;
+    }
   }
 
   List<PopupMenuItem<int>> buildMenuButtons() {

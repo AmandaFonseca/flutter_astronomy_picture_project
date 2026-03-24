@@ -1,3 +1,5 @@
+import 'package:astronomy_picture/data/datasources/fetch_apods/fetch_apods_data_source.dart';
+import 'package:astronomy_picture/data/datasources/fetch_apods/fetch_apods_data_source_impl.dart';
 import 'package:astronomy_picture/data/datasources/network/network_info.dart';
 import 'package:astronomy_picture/data/datasources/seacrh/search_datasource_local/search_local_data_source.dart';
 import 'package:astronomy_picture/data/datasources/seacrh/search_datasource_local/search_local_data_source_impl.dart';
@@ -5,17 +7,22 @@ import 'package:astronomy_picture/data/datasources/seacrh/search_datasource_remo
 import 'package:astronomy_picture/data/datasources/seacrh/search_datasource_remote/search_remote_data_source_impl.dart';
 import 'package:astronomy_picture/data/datasources/today_apod/today_apod_data_source_remote/today_apod_data_source.dart';
 import 'package:astronomy_picture/data/datasources/today_apod/today_apod_data_source_remote/today_apod_data_source_impl.dart';
+import 'package:astronomy_picture/data/repositories/fetch_apods/fetch_apods_repository_impl.dart';
 import 'package:astronomy_picture/data/repositories/search/search_repository_impl.dart';
 
 import 'package:astronomy_picture/data/repositories/today_apod/today_apod_repository_impl.dart';
+import 'package:astronomy_picture/domain/repositores/fetch_apods/fetch_apods_repository.dart';
 import 'package:astronomy_picture/domain/repositores/search/search_repository.dart';
 import 'package:astronomy_picture/domain/repositores/today_apod/today_apod_repository.dart';
+import 'package:astronomy_picture/domain/usecases/fetch_apods/fetch_apods.dart';
 import 'package:astronomy_picture/domain/usecases/search/fecth_apod_by_range.dart';
 import 'package:astronomy_picture/domain/usecases/search/fetch_search_history.dart';
 import 'package:astronomy_picture/domain/usecases/search/update_search_history.dart';
 import 'package:astronomy_picture/domain/usecases/today_apod/fetch_apod_today.dart';
+import 'package:astronomy_picture/presentation/bloc/fetch_apods/fetch_apods_bloc.dart';
 import 'package:astronomy_picture/presentation/bloc/search/search_bloc.dart';
 import 'package:astronomy_picture/presentation/bloc/today_apod/today_apod_bloc.dart';
+import 'package:astronomy_picture/route_generator.dart';
 import 'package:get_it/get_it.dart';
 import 'package:http/http.dart' as http;
 import 'package:internet_connection_checker/internet_connection_checker.dart';
@@ -37,9 +44,13 @@ Future<void> setUpContainer() async {
     () => NetworkInfoImpl(internetConnection: getIt()),
   );
 
+  //routes
+  getIt.registerSingleton<RouteGenerator>(RouteGenerator());
+
   // Features
   apodToday();
   searchFeature();
+  fetchApods();
 }
 
 void apodToday() {
@@ -82,4 +93,21 @@ void searchFeature() {
       fetchApodByDataRange: getIt(),
     ),
   );
+}
+
+void fetchApods() {
+  getIt.registerLazySingleton<FetchApodsDataSource>(
+    () => FetchApodsDataSourceImpl(client: getIt()),
+  );
+
+  getIt.registerLazySingleton<FetchApodsRepository>(
+    () => FetchApodsRepositoryImpl(
+      fetchApodsDataSource: getIt(),
+      networkInfo: getIt(),
+    ),
+  );
+
+  getIt.registerLazySingleton(() => FetchApods(repository: getIt()));
+
+  getIt.registerFactory(() => FetchApodsBloc(fetchApods: getIt()));
 }

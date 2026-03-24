@@ -1,6 +1,5 @@
 import 'package:astronomy_picture/core/failure.dart';
 import 'package:astronomy_picture/data/datasources/fetch_apods/fetch_apods_data_source.dart';
-import 'package:astronomy_picture/data/datasources/fetch_apods/fetch_apods_data_source_impl.dart';
 import 'package:astronomy_picture/data/repositories/fetch_apods/fetch_apods_repository_impl.dart';
 import 'package:astronomy_picture/domain/entities/apod.dart';
 import 'package:astronomy_picture/domain/repositores/fetch_apods/fetch_apods_repository.dart';
