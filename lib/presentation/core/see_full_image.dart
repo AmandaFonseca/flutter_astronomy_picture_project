@@ -16,7 +16,7 @@ class _SeeFullImageState extends State<SeeFullImage> {
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
-        backgroundColor: CustomColors.spaceBlue.withOpacity(0.0),
+        backgroundColor: CustomColors.spaceBlue.withValues(alpha: 0.0),
         elevation: 0,
         actions: [
           TextButton.icon(

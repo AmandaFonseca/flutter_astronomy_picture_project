@@ -10,6 +10,7 @@ class ApodModel extends Apod {
     super.mediaType,
     super.serviceVersion,
     super.url,
+    super.thumbnailUrl,
   });
 
   factory ApodModel.fromJson(Map<String, dynamic> json) => ApodModel(
@@ -21,6 +22,7 @@ class ApodModel extends Apod {
     mediaType: json['media_type'],
     serviceVersion: json['service_version'],
     url: json['url'],
+    thumbnailUrl: json["thumbnail_url"],
   );
 
   Map<String, dynamic> toJson() => {
@@ -32,6 +34,7 @@ class ApodModel extends Apod {
     'media_type': mediaType,
     'service_version': serviceVersion,
     'url': url,
+    'thumbnail_url': thumbnailUrl,
   };
 
   Apod toEntity() => Apod(
@@ -43,5 +46,6 @@ class ApodModel extends Apod {
     serviceVersion: serviceVersion,
     title: title,
     url: url,
+    thumbnailUrl: thumbnailUrl,
   );
 }

@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:astronomy_picture/core/constants/urls_constants.dart';
 import 'package:astronomy_picture/core/failure.dart';
-import 'package:astronomy_picture/data/datasources/today_apod/today_apod_data_source.dart';
+import 'package:astronomy_picture/data/datasources/today_apod/today_apod_data_source_remote/today_apod_data_source.dart';
 import 'package:astronomy_picture/data/models/apod_model.dart';
 import 'package:http/http.dart' as http;
 

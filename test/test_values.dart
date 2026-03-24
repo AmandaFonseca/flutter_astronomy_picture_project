@@ -27,3 +27,20 @@ ApodModel Function() tApodModel = () => ApodModel(
   title: "Pleiades: The Seven Sisters Star Cluster",
   url: "https://apod.nasa.gov/apod/image/2602/Pleiades_Fiedosiuk_960.jpg",
 );
+
+List<String> Function() tHistoryList = () => [
+  "2008-09-27",
+  "2008-09-27/2008-09-27",
+  "2008-09-27",
+];
+
+List<Apod> Function() tListApod = () => [tApod(), tApod(), tApod()];
+
+List<ApodModel> Function() tListApodModel = () => [
+  tApodModel(),
+  tApodModel(),
+  tApodModel(),
+];
+
+String startDateTest = "2022-05-05";
+String endDateTest = "2022-05-01";

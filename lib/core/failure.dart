@@ -15,3 +15,13 @@ class ApiFailure extends Failure {
   @override
   String get msg => 'Sorry! It was not possible to access the Server.';
 }
+
+class ConvertFailure extends Failure {
+  @override
+  String get msg => "Sorry! Your query is not in the rigth format";
+}
+
+class AccessLocalDataFailure extends Failure {
+  @override
+  String get msg => "Sorry! There was a problem acessing local data.";
+}

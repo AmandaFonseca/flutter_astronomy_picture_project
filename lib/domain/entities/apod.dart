@@ -9,6 +9,7 @@ class Apod extends Equatable {
   final String? serviceVersion;
   final String? title;
   final String? url;
+  final String? thumbnailUrl;
 
   const Apod({
     this.copyright,
@@ -19,6 +20,7 @@ class Apod extends Equatable {
     this.serviceVersion,
     this.title,
     this.url,
+    this.thumbnailUrl,
   });
 
   @override
@@ -31,5 +33,6 @@ class Apod extends Equatable {
     serviceVersion,
     title,
     url,
+    thumbnailUrl,
   ];
 }
