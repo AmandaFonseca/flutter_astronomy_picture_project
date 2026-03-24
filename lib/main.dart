@@ -1,4 +1,5 @@
 import 'package:astronomy_picture/container_injection.dart';
+import 'package:astronomy_picture/presentation/pages/featch_apods/featch_apods_page.dart';
 import 'package:astronomy_picture/presentation/pages/today_apod/today_apod_page.dart';
 import 'package:astronomy_picture/theme.dart';
 import 'package:flutter/material.dart';
@@ -19,7 +20,8 @@ class AstronomyPicture extends StatelessWidget {
     return MaterialApp(
       title: 'Astronomy Picture',
       theme: CustomTheme.getTheme(),
-      home: const TodayApodPage(),
+      //home: const TodayApodPage(),
+      home: const FetchApodsPage(),
     );
   }
 }

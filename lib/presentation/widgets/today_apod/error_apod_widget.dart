@@ -4,7 +4,12 @@ import 'package:flutter/material.dart';
 class ErrorApodWidget extends StatelessWidget {
   final String msg;
   final Function()? onRetry;
-  const ErrorApodWidget({super.key, required this.msg, this.onRetry});
+  const ErrorApodWidget({
+    super.key,
+    required this.msg,
+    this.onRetry,
+    required Color color,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +28,6 @@ class ErrorApodWidget extends StatelessWidget {
               textAlign: TextAlign.center,
             ),
 
-            // 3. Lógica do Botão (Use chaves se quiser agrupar o SizedBox + Button)
             if (onRetry != null) ...[
               const SizedBox(height: 16),
               ElevatedButton(

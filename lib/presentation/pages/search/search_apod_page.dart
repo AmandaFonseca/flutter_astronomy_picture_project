@@ -1,0 +1,154 @@
+import 'dart:async';
+
+import 'package:astronomy_picture/container_injection.dart';
+import 'package:astronomy_picture/custom_colors.dart';
+import 'package:astronomy_picture/domain/entities/apod.dart';
+import 'package:astronomy_picture/presentation/bloc/search/search_bloc.dart';
+import 'package:astronomy_picture/presentation/pages/today_apod/apod_view_page.dart';
+import 'package:astronomy_picture/presentation/widgets/core/apod_tile.dart';
+import 'package:astronomy_picture/presentation/widgets/today_apod/error_apod_widget.dart';
+import 'package:flutter/material.dart';
+
+class SearchApodPage extends SearchDelegate {
+  late SearchBloc _searchBloc;
+  late SearchBloc _searchBlocHistory;
+  final StreamController<SearchState> _stream = StreamController.broadcast();
+  String _cacheQuery = "";
+
+  List<Apod> _cacheApodList = [];
+  List<String> _searchHistoryList = [];
+  // PickerDateRange _choosedDate = PickerDateRange(
+  //   DateTime.now(),
+  //   (DateTime.now()),
+  // );
+
+  SearchApodPage() {
+    _searchBloc = getIt<SearchBloc>();
+    _searchBlocHistory = getIt<SearchBloc>();
+    _searchBlocHistory.input.add(FetchHistorySearchEvent());
+    _searchBloc.stream.listen((state) {
+      _stream.add(state);
+    });
+    _searchBlocHistory.stream.listen((state) {
+      if (state is SuccessHistorySearchState) {
+        _searchHistoryList = state.list;
+      }
+    });
+  }
+
+  @override
+  List<Widget>? buildActions(BuildContext context) {
+    return [
+      IconButton(onPressed: () {}, icon: Icon(Icons.calendar_month)),
+      IconButton(
+        onPressed: () {
+          if (query.isEmpty) {
+            close(context, null);
+          } else {
+            query = "";
+          }
+        },
+        icon: Icon(Icons.close),
+      ),
+    ];
+  }
+
+  @override
+  Widget? buildLeading(BuildContext context) {
+    return IconButton(
+      onPressed: () {
+        close(context, null);
+      },
+      icon: Icon(Icons.arrow_back),
+    );
+  }
+
+  @override
+  Widget buildResults(BuildContext context) {
+    if (query.isNotEmpty && query != _cacheQuery) {
+      _searchBloc.input.add(FetchByDateRangeSearchEvent(query: query));
+      _cacheQuery = query;
+    }
+    return Container(
+      color: CustomColors.spaceBlue,
+      child: StreamBuilder(
+        stream: _stream.stream,
+        builder: (context, snapshot) {
+          SearchState? state = snapshot.data;
+          if (state is LoadingSearchState) {
+            return Center(
+              child: CircularProgressIndicator(color: CustomColors.white),
+            );
+          }
+
+          if (state is ErrorSearchState) {
+            return Center(
+              child: ErrorApodWidget(
+                msg: state.msg,
+                color: CustomColors.vermilion,
+                onRetry: () {
+                  _searchBloc.input.add(
+                    FetchByDateRangeSearchEvent(query: query),
+                  );
+                },
+              ),
+            );
+          }
+
+          if (state is SuccessListSearchState) {
+            if (query.isNotEmpty) {
+              if (!_searchHistoryList.contains(query)) {
+                _searchHistoryList.add(query);
+                _searchBlocHistory.input.add(
+                  UpdateHistorySearchEvent(list: _searchHistoryList),
+                );
+              }
+            }
+
+            _cacheApodList = state.list;
+          }
+
+          if (_cacheApodList.isEmpty) {
+            Center(
+              child: ErrorApodWidget(
+                msg: "Sorry! We not find any content for this search.",
+                onRetry: () {
+                  _searchBloc.input.add(
+                    FetchByDateRangeSearchEvent(query: query),
+                  );
+                },
+                color: CustomColors.vermilion,
+              ),
+            );
+          }
+
+          return ListView.builder(
+            itemCount: _cacheApodList.length,
+            itemBuilder: (context, index) {
+              return Padding(
+                padding: EdgeInsetsGeometry.all(8.0),
+                child: ApodTile(
+                  apod: _cacheApodList[index],
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) =>
+                            ApodViewPage(apod: _cacheApodList[index]),
+                      ),
+                    );
+                  },
+                ),
+              );
+            },
+          );
+        },
+      ),
+    );
+  }
+
+  @override
+  Widget buildSuggestions(BuildContext context) {
+    return Container();
+  }
+}

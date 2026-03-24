@@ -65,7 +65,10 @@ class _ApodViewPageState extends State<ApodViewPage> {
               Stack(
                 alignment: Alignment.topCenter,
                 children: [
-                  ClipRRect(child: buildMediaType()),
+                  Hero(
+                    tag: 'apod-${apod.date.toString()}',
+                    child: ClipRRect(child: buildMediaType()),
+                  ),
                   Padding(
                     padding: const EdgeInsets.fromLTRB(30.0, 350.0, 30.0, 0.0),
                     child: Container(
