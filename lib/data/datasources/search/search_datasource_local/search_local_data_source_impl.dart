@@ -1,6 +1,6 @@
 import 'package:astronomy_picture/core/failure.dart';
 import 'package:astronomy_picture/core/shared_keys.dart';
-import 'package:astronomy_picture/data/datasources/seacrh/search_datasource_local/search_local_data_source.dart';
+import 'package:astronomy_picture/data/datasources/search/search_datasource_local/search_local_data_source.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SearchLocalDataSourceImpl implements SearchLocalDataSource {

@@ -1,10 +1,10 @@
 import 'package:astronomy_picture/data/datasources/fetch_apods/fetch_apods_data_source.dart';
 import 'package:astronomy_picture/data/datasources/fetch_apods/fetch_apods_data_source_impl.dart';
 import 'package:astronomy_picture/data/datasources/network/network_info.dart';
-import 'package:astronomy_picture/data/datasources/seacrh/search_datasource_local/search_local_data_source.dart';
-import 'package:astronomy_picture/data/datasources/seacrh/search_datasource_local/search_local_data_source_impl.dart';
-import 'package:astronomy_picture/data/datasources/seacrh/search_datasource_remote/search_remote_data_source_.dart';
-import 'package:astronomy_picture/data/datasources/seacrh/search_datasource_remote/search_remote_data_source_impl.dart';
+import 'package:astronomy_picture/data/datasources/search/search_datasource_local/search_local_data_source.dart';
+import 'package:astronomy_picture/data/datasources/search/search_datasource_local/search_local_data_source_impl.dart';
+import 'package:astronomy_picture/data/datasources/search/search_datasource_remote/search_remote_data_source_.dart';
+import 'package:astronomy_picture/data/datasources/search/search_datasource_remote/search_remote_data_source_impl.dart';
 import 'package:astronomy_picture/data/datasources/today_apod/today_apod_data_source_remote/today_apod_data_source.dart';
 import 'package:astronomy_picture/data/datasources/today_apod/today_apod_data_source_remote/today_apod_data_source_impl.dart';
 import 'package:astronomy_picture/data/repositories/fetch_apods/fetch_apods_repository_impl.dart';

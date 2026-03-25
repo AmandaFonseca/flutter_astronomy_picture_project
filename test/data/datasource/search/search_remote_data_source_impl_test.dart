@@ -2,8 +2,8 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:astronomy_picture/core/failure.dart';
-import 'package:astronomy_picture/data/datasources/seacrh/search_datasource_remote/search_remote_data_source_.dart';
-import 'package:astronomy_picture/data/datasources/seacrh/search_datasource_remote/search_remote_data_source_impl.dart';
+import 'package:astronomy_picture/data/datasources/search/search_datasource_remote/search_remote_data_source_.dart';
+import 'package:astronomy_picture/data/datasources/search/search_datasource_remote/search_remote_data_source_impl.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:http/http.dart' as http;

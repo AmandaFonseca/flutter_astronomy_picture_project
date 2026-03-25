@@ -1,7 +1,7 @@
 import 'package:astronomy_picture/core/failure.dart';
 import 'package:astronomy_picture/data/datasources/network/network_info.dart';
-import 'package:astronomy_picture/data/datasources/seacrh/search_datasource_local/search_local_data_source.dart';
-import 'package:astronomy_picture/data/datasources/seacrh/search_datasource_remote/search_remote_data_source_.dart';
+import 'package:astronomy_picture/data/datasources/search/search_datasource_local/search_local_data_source.dart';
+import 'package:astronomy_picture/data/datasources/search/search_datasource_remote/search_remote_data_source_.dart';
 import 'package:astronomy_picture/domain/entities/apod.dart';
 import 'package:astronomy_picture/domain/repositores/search/search_repository.dart';
 import 'package:dartz/dartz.dart';
