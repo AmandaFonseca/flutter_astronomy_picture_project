@@ -24,8 +24,7 @@ class ApodViewButton extends StatelessWidget {
         decoration: BoxDecoration(
           color: CustomColors.black,
           borderRadius: BorderRadius.circular(30.0),
-          // ignore: deprecated_member_use
-          border: Border.all(color: CustomColors.white.withOpacity(.6)),
+          border: Border.all(color: CustomColors.white.withValues(alpha: .6)),
         ),
         child: Column(
           children: [

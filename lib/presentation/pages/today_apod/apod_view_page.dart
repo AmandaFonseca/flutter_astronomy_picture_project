@@ -212,8 +212,6 @@ class _ApodViewPageState extends State<ApodViewPage> {
 
   Widget buildMediaType() {
     final double size = MediaQuery.of(context).size.width;
-
-    // 1. Determine which URL to use for the background/thumbnail
     final String backgroundUrl = isImage
         ? (apod.url ?? "")
         : (apod.thumbnailUrl ??
