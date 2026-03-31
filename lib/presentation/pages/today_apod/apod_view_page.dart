@@ -335,11 +335,14 @@ class _ApodViewPageState extends State<ApodViewPage> {
 
   void sharedAllContent() {
     urlToShare = apod.url ?? apod.hdurl ?? "";
+    late String copyrightBy = apod.copyright == null
+        ? "NASA"
+        : "${apod.copyright}";
     if (urlToShare.isNotEmpty) {
       SharePlus.instance.share(
         ShareParams(
           text:
-              "${apod.title}\n${apod.explanation}\n\nlink: $urlToShare\n\nby: ${apod.copyright}",
+              "${apod.title}\n${apod.explanation}\n\nlink: $urlToShare\n\nby: ${copyrightBy}",
         ),
       );
     }
