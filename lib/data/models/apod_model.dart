@@ -48,4 +48,16 @@ class ApodModel extends Apod {
     url: url,
     thumbnailUrl: thumbnailUrl,
   );
+
+  factory ApodModel.fromEntity(Apod entity) => ApodModel(
+    title: entity.title,
+    copyright: entity.copyright,
+    date: entity.date,
+    explanation: entity.explanation,
+    hdurl: entity.hdurl,
+    mediaType: entity.mediaType,
+    serviceVersion: entity.serviceVersion,
+    url: entity.url,
+    thumbnailUrl: entity.thumbnailUrl,
+  );
 }

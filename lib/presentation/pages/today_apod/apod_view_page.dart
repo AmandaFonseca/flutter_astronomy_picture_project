@@ -1,5 +1,8 @@
+import 'package:astronomy_picture/container_injection.dart';
+import 'package:astronomy_picture/core/success.dart';
 import 'package:astronomy_picture/custom_colors.dart';
 import 'package:astronomy_picture/domain/entities/apod.dart';
+import 'package:astronomy_picture/presentation/bloc/bookmark/bookmark_apod_bloc.dart';
 import 'package:astronomy_picture/presentation/core/date_convert.dart';
 import 'package:astronomy_picture/presentation/core/see_full_image.dart';
 import 'package:astronomy_picture/presentation/widgets/today_apod/apod_video.dart';
@@ -18,14 +21,21 @@ class ApodViewPage extends StatefulWidget {
 
 class _ApodViewPageState extends State<ApodViewPage> {
   late Apod apod;
+  late BookmarkApodBloc _bookmarkApodBloc;
+  IconData iconSave = Icons.bookmark_border;
+
   bool isImage = true;
   String urlToShare = "";
 
   @override
   void initState() {
-    super.initState();
     apod = widget.apod;
+    _bookmarkApodBloc = getIt<BookmarkApodBloc>();
+    _bookmarkApodBloc.input.add(
+      IsSaveBookmarkApodEvent(date: DateConvert.dateToString(apod.date)),
+    );
     checkMediaType();
+    super.initState();
   }
 
   void checkMediaType() {
@@ -44,7 +54,7 @@ class _ApodViewPageState extends State<ApodViewPage> {
         backgroundColor: Colors.white.withValues(alpha: 0.0),
         elevation: 0,
         actions: [
-          PopupMenuButton<int>(
+          PopupMenuButton(
             icon: Icon(Icons.more_vert, color: CustomColors.white),
             color: CustomColors.black,
             itemBuilder: (context) => buildMenuButtons(),
@@ -128,37 +138,68 @@ class _ApodViewPageState extends State<ApodViewPage> {
                   ),
                 ],
               ),
-              const SizedBox(height: 20),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                child: SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Row(
-                    children: [
-                      ApodViewButton(
-                        iconCustom: Icons.hd,
-                        titleCustom: "Show media",
-                        descriptionCustom: "Open media in browser",
-                        onTapCustom: () {},
-                      ),
-                      const SizedBox(width: 15),
-                      ApodViewButton(
-                        iconCustom: Icons.bookmark_outline,
-                        titleCustom: "Save",
-                        descriptionCustom: "Add to favorites",
-                        onTapCustom: () {},
-                      ),
-                      const SizedBox(width: 15),
-                      ElevatedButton.icon(
-                        onPressed: saveOnGallery,
-                        icon: const Icon(Icons.download),
-                        label: const Text('Download Image'),
-                        style: ElevatedButton.styleFrom(
-                          padding: const EdgeInsets.all(16),
-                        ),
-                      ),
-                    ],
-                  ),
+              const SizedBox(height: 20.0),
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  children: [
+                    ApodViewButton(
+                      iconCustom: Icons.open_in_browser,
+                      titleCustom: "Show Media",
+                      descriptionCustom:
+                          "If media are not able on app, tap here to see on browser",
+                      onTapCustom: () {},
+                    ),
+                    const SizedBox(width: 15),
+                    StreamBuilder(
+                      stream: _bookmarkApodBloc.stream,
+                      builder: (context, snapshot) {
+                        final state = snapshot.data;
+
+                        if (state is LocalAccessSuccessBookmarkApodState) {
+                          if (state.msg == ApodSaved().msg) {
+                            if (iconSave.codePoint !=
+                                Icons.bookmark.codePoint) {
+                              showSnackBar(state.msg);
+                              iconSave = Icons.bookmark;
+                            }
+                          } else {
+                            if (iconSave != Icons.bookmark_border) {
+                              showSnackBar(state.msg);
+                              iconSave = Icons.bookmark_border;
+                            }
+                          }
+                        }
+
+                        if (state is IsSaveBookmarkApodState) {
+                          if (state.wasSave) {
+                            iconSave = Icons.bookmark;
+                          }
+                        }
+
+                        return ApodViewButton(
+                          iconCustom: iconSave,
+                          titleCustom: "Save",
+                          descriptionCustom:
+                              "Save this content for quick access in future",
+                          onTapCustom: () {
+                            if (iconSave.codePoint ==
+                                Icons.bookmark_border.codePoint) {
+                              _bookmarkApodBloc.input.add(
+                                SaveBookmarkApodEvent(apod: apod),
+                              );
+                            } else {
+                              _bookmarkApodBloc.input.add(
+                                RemoveSaveBookmarkApodEvent(
+                                  date: DateConvert.dateToString(apod.date),
+                                ),
+                              );
+                            }
+                          },
+                        );
+                      },
+                    ),
+                  ],
                 ),
               ),
               const SizedBox(height: 40),
@@ -183,14 +224,12 @@ class _ApodViewPageState extends State<ApodViewPage> {
       bottomRight: Radius.circular(30.0),
     );
 
-    Widget content;
-
     if (isImage) {
-      content = Container(
+      Container(
         height: size,
         decoration: BoxDecoration(
           borderRadius: borderRadius,
-          border: Border.all(color: CustomColors.white.withOpacity(.5)),
+          border: Border.all(color: CustomColors.white.withValues(alpha: .5)),
           image: DecorationImage(
             image: NetworkImage(backgroundUrl),
             fit: BoxFit.cover,
@@ -207,26 +246,43 @@ class _ApodViewPageState extends State<ApodViewPage> {
             ),
           );
         },
-        child: content,
+        child: Container(
+          height: MediaQuery.of(context).size.width,
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: NetworkImage(apod.url ?? ""),
+              fit: BoxFit.fitHeight,
+            ),
+            borderRadius: const BorderRadius.only(
+              bottomLeft: Radius.circular(30.0),
+              bottomRight: Radius.circular(30.0),
+            ),
+            border: Border.all(color: CustomColors.white.withValues(alpha: .5)),
+          ),
+        ),
       );
     } else {
-      content = Container(
-        height: size,
+      return Container(
+        height: MediaQuery.of(context).size.width,
         decoration: BoxDecoration(
-          color: Colors.black,
-          borderRadius: borderRadius,
-          border: Border.all(color: CustomColors.white.withOpacity(.5)),
-          image: !backgroundUrl.endsWith('.mp4')
-              ? DecorationImage(
-                  image: NetworkImage(backgroundUrl),
-                  fit: BoxFit.cover,
-                )
-              : null,
+          image: DecorationImage(
+            image: NetworkImage(
+              apod.thumbnailUrl ??
+                  "https://spaceplace.nasa.gov/gallery-space/en/NGC2336-galaxy.en.jpg",
+            ),
+            fit: BoxFit.fitHeight,
+          ),
+          borderRadius: const BorderRadius.only(
+            bottomLeft: Radius.circular(30.0),
+            bottomRight: Radius.circular(30.0),
+          ),
+          border: Border.all(color: CustomColors.white.withValues(alpha: .5)),
         ),
-        child: Center(child: ApodVideo(url: apod.url ?? "")),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [ApodVideo(url: apod.url ?? "")],
+        ),
       );
-
-      return content;
     }
   }
 
@@ -262,9 +318,11 @@ class _ApodViewPageState extends State<ApodViewPage> {
 
   void saveOnGallery() {
     if (isImage) {
-      GallerySaver.saveImage(apod.url ?? apod.hdurl ?? "").then((value) {
+      GallerySaver.saveImage(apod.hdurl ?? apod.hdurl ?? "").then((value) {
         if (value == true) {
-          showSnackBar('Image saved on Gallery');
+          setState(() {
+            showSnackBar("Image save on Gallery");
+          });
         }
       });
     }
@@ -290,6 +348,8 @@ class _ApodViewPageState extends State<ApodViewPage> {
   }
 
   void showSnackBar(String msg) {
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(msg)));
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(msg)));
+    });
   }
 }

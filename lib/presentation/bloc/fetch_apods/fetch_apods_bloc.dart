@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:astronomy_picture/domain/usecases/fetch_apods/fetch_apods.dart';
-import 'dart:async';
 
 import 'package:astronomy_picture/domain/entities/apod.dart';
 import 'package:astronomy_picture/domain/usecases/core/usecase.dart';

@@ -5,9 +5,9 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'dart:async' as _i3;
 
-import 'package:astronomy_picture/data/datasources/search/search_datasource_local/search_local_data_source.dart'
+import 'package:astronomy_picture/data/datasources/seacrh/search_datasource_local/search_local_data_source.dart'
     as _i5;
-import 'package:astronomy_picture/data/datasources/search/search_datasource_remote/search_remote_data_source_.dart'
+import 'package:astronomy_picture/data/datasources/seacrh/search_datasource_remote/search_remote_data_source_.dart'
     as _i2;
 import 'package:astronomy_picture/data/models/apod_model.dart' as _i4;
 import 'package:mockito/mockito.dart' as _i1;

@@ -1,24 +1,33 @@
+import 'package:astronomy_picture/data/datasources/bookmark/bookmark_datasource_local/bookmark_apod_data_source.dart';
+import 'package:astronomy_picture/data/datasources/bookmark/bookmark_datasource_local/bookmark_apod_data_source_impl.dart';
 import 'package:astronomy_picture/data/datasources/fetch_apods/fetch_apods_data_source.dart';
 import 'package:astronomy_picture/data/datasources/fetch_apods/fetch_apods_data_source_impl.dart';
 import 'package:astronomy_picture/data/datasources/network/network_info.dart';
-import 'package:astronomy_picture/data/datasources/search/search_datasource_local/search_local_data_source.dart';
-import 'package:astronomy_picture/data/datasources/search/search_datasource_local/search_local_data_source_impl.dart';
-import 'package:astronomy_picture/data/datasources/search/search_datasource_remote/search_remote_data_source_.dart';
-import 'package:astronomy_picture/data/datasources/search/search_datasource_remote/search_remote_data_source_impl.dart';
+import 'package:astronomy_picture/data/datasources/seacrh/search_datasource_local/search_local_data_source.dart';
+import 'package:astronomy_picture/data/datasources/seacrh/search_datasource_local/search_local_data_source_impl.dart';
+import 'package:astronomy_picture/data/datasources/seacrh/search_datasource_remote/search_remote_data_source_.dart';
+import 'package:astronomy_picture/data/datasources/seacrh/search_datasource_remote/search_remote_data_source_impl.dart';
 import 'package:astronomy_picture/data/datasources/today_apod/today_apod_data_source_remote/today_apod_data_source.dart';
 import 'package:astronomy_picture/data/datasources/today_apod/today_apod_data_source_remote/today_apod_data_source_impl.dart';
+import 'package:astronomy_picture/data/repositories/bookmark/bookmark_repository_impl.dart';
 import 'package:astronomy_picture/data/repositories/fetch_apods/fetch_apods_repository_impl.dart';
 import 'package:astronomy_picture/data/repositories/search/search_repository_impl.dart';
 
 import 'package:astronomy_picture/data/repositories/today_apod/today_apod_repository_impl.dart';
+import 'package:astronomy_picture/domain/repositores/bookmark/bookmark_repository.dart';
 import 'package:astronomy_picture/domain/repositores/fetch_apods/fetch_apods_repository.dart';
 import 'package:astronomy_picture/domain/repositores/search/search_repository.dart';
 import 'package:astronomy_picture/domain/repositores/today_apod/today_apod_repository.dart';
+import 'package:astronomy_picture/domain/usecases/bookmark/apod_is_save.dart';
+import 'package:astronomy_picture/domain/usecases/bookmark/fetch_all_apods_saved.dart';
+import 'package:astronomy_picture/domain/usecases/bookmark/remove_save_apod.dart';
+import 'package:astronomy_picture/domain/usecases/bookmark/save_apod.dart';
 import 'package:astronomy_picture/domain/usecases/fetch_apods/fetch_apods.dart';
 import 'package:astronomy_picture/domain/usecases/search/fecth_apod_by_range.dart';
 import 'package:astronomy_picture/domain/usecases/search/fetch_search_history.dart';
 import 'package:astronomy_picture/domain/usecases/search/update_search_history.dart';
 import 'package:astronomy_picture/domain/usecases/today_apod/fetch_apod_today.dart';
+import 'package:astronomy_picture/presentation/bloc/bookmark/bookmark_apod_bloc.dart';
 import 'package:astronomy_picture/presentation/bloc/fetch_apods/fetch_apods_bloc.dart';
 import 'package:astronomy_picture/presentation/bloc/search/search_bloc.dart';
 import 'package:astronomy_picture/presentation/bloc/today_apod/today_apod_bloc.dart';
@@ -51,6 +60,7 @@ Future<void> setUpContainer() async {
   apodToday();
   searchFeature();
   fetchApods();
+  bookmarks();
 }
 
 void apodToday() {
@@ -110,4 +120,28 @@ void fetchApods() {
   getIt.registerLazySingleton(() => FetchApods(repository: getIt()));
 
   getIt.registerFactory(() => FetchApodsBloc(fetchApods: getIt()));
+}
+
+void bookmarks() {
+  getIt.registerLazySingleton<BookmarkApodDataSource>(
+    () => BookmarkApodDataSourceImpl(preferences: getIt()),
+  );
+
+  getIt.registerLazySingleton<BookmarkRepository>(
+    () => BookmarkApodRepositoryImpl(bookmarkApodDataSource: getIt()),
+  );
+
+  getIt.registerLazySingleton(() => ApodIsSave(repository: getIt()));
+  getIt.registerLazySingleton(() => FetchAllApodSave(repository: getIt()));
+  getIt.registerLazySingleton(() => RemoveSaveApod(repository: getIt()));
+  getIt.registerLazySingleton(() => SaveApod(repository: getIt()));
+
+  getIt.registerFactory(
+    () => BookmarkApodBloc(
+      apodIsSave: getIt(),
+      fetchAllApodSave: getIt(),
+      removeSaveApod: getIt(),
+      saveApod: getIt(),
+    ),
+  );
 }

@@ -39,7 +39,9 @@ class ApodTile extends StatelessWidget {
                         )
                       : null,
                   borderRadius: BorderRadius.circular(30.0),
-                  border: Border.all(color: CustomColors.white.withOpacity(.5)),
+                  border: Border.all(
+                    color: CustomColors.white.withValues(alpha: 0.5),
+                  ),
                 ),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.end,
@@ -58,7 +60,7 @@ class ApodTile extends StatelessWidget {
                     Container(
                       height: 100,
                       decoration: BoxDecoration(
-                        color: CustomColors.black.withOpacity(.6),
+                        color: CustomColors.black.withValues(alpha: .6),
                         borderRadius: const BorderRadius.only(
                           bottomLeft: Radius.circular(30),
                           bottomRight: Radius.circular(30),

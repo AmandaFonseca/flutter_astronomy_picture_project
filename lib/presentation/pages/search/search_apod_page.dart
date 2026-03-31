@@ -203,7 +203,9 @@ class SearchApodPage extends SearchDelegate {
             padding: EdgeInsetsGeometry.all(8.0),
             child: Container(
               decoration: BoxDecoration(
-                border: Border.all(color: CustomColors.white.withOpacity(.7)),
+                border: Border.all(
+                  color: CustomColors.white.withValues(alpha: 0.5),
+                ),
               ),
               child: Container(
                 padding: EdgeInsets.all(10.0),

@@ -7,7 +7,6 @@ import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../../fixtures/fixtures.dart';
 import '../../../test_values.dart';
 import '../search/search_local_data_source_impl_test.mocks.dart';
 

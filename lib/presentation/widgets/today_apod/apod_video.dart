@@ -46,8 +46,6 @@ class _ApodVideoState extends State<ApodVideo> {
         url.startsWith("https://youtu.be")) {
       videoPlataform = VideoPlataform.youtube;
 
-      final videoId = extractYoutubeId(url);
-
       youtubePlayerController = YoutubePlayerController(
         initialVideoId: YoutubePlayer.convertUrlToId(url) ?? "",
         flags: const YoutubePlayerFlags(autoPlay: false),
