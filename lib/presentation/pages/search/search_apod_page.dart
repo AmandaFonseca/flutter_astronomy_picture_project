@@ -45,42 +45,71 @@ class SearchApodPage extends SearchDelegate {
         onPressed: () {
           showDialog(
             context: context,
-            builder: (context) => SfDateRangePicker(
-              showActionButtons: true,
-              maxDate: DateTime.now(),
-              initialSelectedRange: _choosedDate,
-              selectionMode: DateRangePickerSelectionMode.range,
+            builder: (BuildContext context) => Dialog(
               backgroundColor: CustomColors.black,
-              todayHighlightColor: CustomColors.blue,
-              headerHeight: 100,
-              headerStyle: DateRangePickerHeaderStyle(
-                textStyle: TextStyle(color: CustomColors.white),
+              insetPadding: const EdgeInsets.symmetric(
+                horizontal: 20,
+                vertical: 40,
               ),
-              monthViewSettings: DateRangePickerMonthViewSettings(
-                viewHeaderStyle: DateRangePickerViewHeaderStyle(
-                  textStyle: TextStyle(color: CustomColors.white),
+              child: Container(
+                padding: const EdgeInsets.all(16),
+                constraints: const BoxConstraints(
+                  maxWidth: 400,
+                  maxHeight: 550,
+                ),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Expanded(
+                      child: SfDateRangePicker(
+                        headerHeight: 40,
+                        monthViewSettings:
+                            const DateRangePickerMonthViewSettings(
+                              dayFormat: 'EEE',
+                              viewHeaderHeight: 30,
+                            ),
+                        navigationMode: DateRangePickerNavigationMode.snap,
+                        onSelectionChanged: (args) {
+                          if (args.value is PickerDateRange) {
+                            _choosedDate = args.value;
+                          }
+                        },
+                        selectionMode: DateRangePickerSelectionMode.range,
+                        showActionButtons: true,
+                        maxDate: DateTime.now(),
+                        initialSelectedRange: _choosedDate,
+                        backgroundColor: CustomColors.black,
+                        todayHighlightColor: CustomColors.blue,
+                        headerStyle: DateRangePickerHeaderStyle(
+                          textStyle: TextStyle(color: CustomColors.white),
+                        ),
+                        monthCellStyle: DateRangePickerMonthCellStyle(
+                          textStyle: TextStyle(color: CustomColors.white),
+                          disabledDatesTextStyle: const TextStyle(
+                            color: Colors.grey,
+                          ),
+                        ),
+                        onSubmit: (dateRange) {
+                          if (dateRange is PickerDateRange) {
+                            _choosedDate = dateRange;
+                            if (dateRange.endDate != null) {
+                              query =
+                                  "${DateConvert.dateToString(dateRange.startDate ?? DateTime.now())}/${DateConvert.dateToString(dateRange.endDate!)}";
+                            } else {
+                              query = DateConvert.dateToString(
+                                dateRange.startDate ?? DateTime.now(),
+                              );
+                            }
+                            showResults(context);
+                          }
+                          Navigator.pop(context);
+                        },
+                        onCancel: () => Navigator.pop(context),
+                      ),
+                    ),
+                  ],
                 ),
               ),
-              monthCellStyle: DateRangePickerMonthCellStyle(
-                textStyle: TextStyle(color: CustomColors.white),
-              ),
-              onSubmit: (dateRange) {
-                if (dateRange is PickerDateRange) {
-                  _choosedDate = dateRange;
-                  if (dateRange.endDate != null) {
-                    query =
-                        "${DateConvert.dateToString(dateRange.startDate ?? DateTime(2023))}/${DateConvert.dateToString(dateRange.endDate ?? DateTime(2023))}";
-                  } else {
-                    query = DateConvert.dateToString(
-                      dateRange.startDate ?? DateTime(2023),
-                    );
-                  }
-                }
-                Navigator.pop(context);
-              },
-              onCancel: () {
-                Navigator.pop(context);
-              },
             ),
           );
         },
