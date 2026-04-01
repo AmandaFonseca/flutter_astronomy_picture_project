@@ -10,6 +10,7 @@ import 'package:astronomy_picture/presentation/widgets/today_apod/apod_view_butt
 import 'package:flutter/material.dart';
 import 'package:gallery_saver_plus/gallery_saver.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ApodViewPage extends StatefulWidget {
   final Apod apod;
@@ -148,7 +149,7 @@ class _ApodViewPageState extends State<ApodViewPage> {
                       titleCustom: "Show Media",
                       descriptionCustom:
                           "If media are not able on app, tap here to see on browser",
-                      onTapCustom: () {},
+                      onTapCustom: _launchInBrowser,
                     ),
                     const SizedBox(width: 15),
                     StreamBuilder(
@@ -352,5 +353,17 @@ class _ApodViewPageState extends State<ApodViewPage> {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(msg)));
     });
+  }
+
+  Future<void> _launchInBrowser() async {
+    final String urlString = apod.hdurl ?? apod.url ?? "";
+    if (urlString.isNotEmpty) {
+      final Uri url = Uri.parse(urlString);
+      if (await canLaunchUrl(url)) {
+        await launchUrl(url, mode: LaunchMode.externalApplication);
+      } else {
+        debugPrint('The URL could not be opened: $urlString');
+      }
+    }
   }
 }
