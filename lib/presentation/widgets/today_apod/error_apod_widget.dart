@@ -1,4 +1,5 @@
 import 'package:astronomy_picture/custom_colors.dart';
+import 'package:astronomy_picture/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 
 class ErrorApodWidget extends StatelessWidget {
@@ -32,7 +33,7 @@ class ErrorApodWidget extends StatelessWidget {
               const SizedBox(height: 16),
               ElevatedButton(
                 onPressed: onRetry,
-                child: const Text('Tentar novamente'),
+                child: Text(AppLocalizations.of(context)!.tryAgain),
               ),
             ],
           ],

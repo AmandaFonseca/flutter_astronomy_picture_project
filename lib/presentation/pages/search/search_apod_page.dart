@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:astronomy_picture/container_injection.dart';
 import 'package:astronomy_picture/custom_colors.dart';
 import 'package:astronomy_picture/domain/entities/apod.dart';
+import 'package:astronomy_picture/l10n/app_localizations.dart';
 import 'package:astronomy_picture/presentation/bloc/search/search_bloc.dart';
 import 'package:astronomy_picture/presentation/core/date_convert.dart';
 import 'package:astronomy_picture/presentation/pages/today_apod/apod_view_page.dart';
@@ -241,7 +242,7 @@ class SearchApodPage extends SearchDelegate {
                 width: double.infinity,
                 child: Center(
                   child: Text(
-                    "Single day: YYYY-MM-DD\nRange of days: YYYY-MM-DD/YYYY-MM-DD\nOr tap the calendar icon! Is much better",
+                    AppLocalizations.of(context)!.searchTextExemple,
                     style: TextStyle(color: CustomColors.white),
                   ),
                 ),

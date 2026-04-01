@@ -7,6 +7,7 @@ import 'package:astronomy_picture/presentation/pages/search/search_apod_page.dar
 import 'package:astronomy_picture/presentation/widgets/core/apod_tile.dart';
 import 'package:astronomy_picture/presentation/widgets/today_apod/error_apod_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:astronomy_picture/l10n/app_localizations.dart';
 
 class BookmarkApodPage extends StatefulWidget {
   const BookmarkApodPage({super.key});
@@ -71,7 +72,7 @@ class _BookmarkApodPageState extends State<BookmarkApodPage> {
                   children: [
                     Icon(Icons.info, color: CustomColors.white, size: 100),
                     Text(
-                      "You not save any content yet",
+                      AppLocalizations.of(context)!.alertSave,
                       style: TextStyle(color: CustomColors.white),
                     ),
                   ],
@@ -89,7 +90,10 @@ class _BookmarkApodPageState extends State<BookmarkApodPage> {
                     onDismissed: (direction) {
                       _cacheApod = _list.removeAt(index);
                       setState(() {
-                        showSnackBar("content removed", index);
+                        showSnackBar(
+                          AppLocalizations.of(context)!.contentRemoved,
+                          index,
+                        );
                       });
                     },
                     child: ApodTile(

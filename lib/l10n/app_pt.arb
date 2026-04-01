@@ -1,4 +1,19 @@
 {
   "appTitle": "Astronomy Picture PT",
-  "helloWorld": "Olá Mundo!"
+  "loadingData": "Carregando dados...",
+  "showMedia": "Mostrar mídia",
+  "showMediaDescription": "Se a mídia não estiver disponível no aplicativo, toque aqui para visualizá-la no navegador.",
+  "save": "Salvar",
+  "saveDescription": "Salve este conteúdo para acesso rápido no futuro.",
+  "saveonGallery": "Salvar imagem na galeria",
+  "saveonGallerySaved": "Image salva na galeria",
+  "shareMediaLink": "Compartilhar link de mídia",
+  "shareAllContent": "Compartilhar todo o conteúdo",
+  "searchTextExemple":"Dia único: AAAA-MM-DD\nIntervalo de dias: AAAA-MM-DD/AAAA-MM-DD\nOu toque no ícone do calendário! É muito melhor.",
+  "bookmark": "Favoritos",
+  "pictureDay": "Foto do dia",
+  "alertSave":"Você ainda não salvou nenhum conteúdo.",
+  "contentRemoved":"Conteúdo removido",
+  "alertVideoformat":"Formato de vídeo não suportado",
+  "tryAgain": "Tentar novamente"
 }

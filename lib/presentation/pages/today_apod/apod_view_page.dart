@@ -2,6 +2,7 @@ import 'package:astronomy_picture/container_injection.dart';
 import 'package:astronomy_picture/core/success.dart';
 import 'package:astronomy_picture/custom_colors.dart';
 import 'package:astronomy_picture/domain/entities/apod.dart';
+import 'package:astronomy_picture/l10n/app_localizations.dart';
 import 'package:astronomy_picture/presentation/bloc/bookmark/bookmark_apod_bloc.dart';
 import 'package:astronomy_picture/presentation/core/date_convert.dart';
 import 'package:astronomy_picture/presentation/core/see_full_image.dart';
@@ -146,9 +147,10 @@ class _ApodViewPageState extends State<ApodViewPage> {
                   children: [
                     ApodViewButton(
                       iconCustom: Icons.open_in_browser,
-                      titleCustom: "Show Media",
-                      descriptionCustom:
-                          "If media are not able on app, tap here to see on browser",
+                      titleCustom: AppLocalizations.of(context)!.showMedia,
+                      descriptionCustom: AppLocalizations.of(
+                        context,
+                      )!.showMediaDescription,
                       onTapCustom: _launchInBrowser,
                     ),
                     const SizedBox(width: 15),
@@ -180,9 +182,10 @@ class _ApodViewPageState extends State<ApodViewPage> {
 
                         return ApodViewButton(
                           iconCustom: iconSave,
-                          titleCustom: "Save",
-                          descriptionCustom:
-                              "Save this content for quick access in future",
+                          titleCustom: AppLocalizations.of(context)!.save,
+                          descriptionCustom: AppLocalizations.of(
+                            context,
+                          )!.saveDescription,
                           onTapCustom: () {
                             if (iconSave.codePoint ==
                                 Icons.bookmark_border.codePoint) {
@@ -292,7 +295,7 @@ class _ApodViewPageState extends State<ApodViewPage> {
           value: 1,
           onTap: saveOnGallery,
           child: Text(
-            "Save Image on Gallery",
+            AppLocalizations.of(context)!.saveonGallery,
             style: TextStyle(color: CustomColors.white),
           ),
         ),
@@ -300,7 +303,7 @@ class _ApodViewPageState extends State<ApodViewPage> {
         value: 2,
         onTap: shareOnlyLink,
         child: Text(
-          "Share media link",
+          AppLocalizations.of(context)!.shareMediaLink,
           style: TextStyle(color: CustomColors.white),
         ),
       ),
@@ -308,7 +311,7 @@ class _ApodViewPageState extends State<ApodViewPage> {
         value: 3,
         onTap: sharedAllContent,
         child: Text(
-          "Share All Content",
+          AppLocalizations.of(context)!.shareAllContent,
           style: TextStyle(color: CustomColors.white),
         ),
       ),
@@ -320,7 +323,7 @@ class _ApodViewPageState extends State<ApodViewPage> {
       GallerySaver.saveImage(apod.hdurl ?? apod.hdurl ?? "").then((value) {
         if (value == true) {
           setState(() {
-            showSnackBar("Image save on Gallery");
+            AppLocalizations.of(context)!.saveonGallerySaved;
           });
         }
       });

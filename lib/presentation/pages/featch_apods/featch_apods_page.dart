@@ -1,6 +1,7 @@
 import 'package:astronomy_picture/container_injection.dart';
 import 'package:astronomy_picture/custom_colors.dart';
 import 'package:astronomy_picture/domain/entities/apod.dart';
+import 'package:astronomy_picture/l10n/app_localizations.dart';
 import 'package:astronomy_picture/presentation/bloc/fetch_apods/fetch_apods_bloc.dart';
 import 'package:astronomy_picture/presentation/pages/search/search_apod_page.dart';
 import 'package:astronomy_picture/presentation/widgets/core/apod_tile.dart';
@@ -103,15 +104,15 @@ class _FetchApodsPageState extends State<FetchApodsPage> {
       ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: 1,
-        items: const [
+        items: [
           BottomNavigationBarItem(
-            icon: Icon(Icons.bookmark),
-            label: 'Bookmark',
+            icon: const Icon(Icons.bookmark),
+            label: AppLocalizations.of(context)!.bookmark,
           ),
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
+          const BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
           BottomNavigationBarItem(
-            icon: Icon(Icons.today),
-            label: 'Picture of the day',
+            icon: const Icon(Icons.today),
+            label: AppLocalizations.of(context)!.pictureDay,
           ),
         ],
         onTap: (value) {

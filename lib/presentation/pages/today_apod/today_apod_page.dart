@@ -1,4 +1,5 @@
 import 'package:astronomy_picture/container_injection.dart';
+import 'package:astronomy_picture/l10n/app_localizations.dart';
 import 'package:astronomy_picture/presentation/bloc/today_apod/today_apod_bloc.dart';
 import 'package:astronomy_picture/presentation/pages/today_apod/apod_view_page.dart';
 import 'package:flutter/material.dart';
@@ -33,7 +34,9 @@ class _TodayApodPageState extends State<TodayApodPage> {
       builder: (context, snapshot) {
         TodayApodState? state = snapshot.data;
 
-        Widget body = const Center(child: Text("Carregando dados..."));
+        Widget body = Center(
+          child: Text(AppLocalizations.of(context)!.loadingData),
+        );
 
         if (state is LoadingTodayApodState) {
           body = Center(child: CircularProgressIndicator());

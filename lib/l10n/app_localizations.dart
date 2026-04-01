@@ -104,11 +104,95 @@ abstract class AppLocalizations {
   /// **'Astronomy Picture'**
   String get appTitle;
 
-  /// No description provided for @helloWorld.
+  /// No description provided for @loadingData.
   ///
   /// In en, this message translates to:
-  /// **'Hello World!'**
-  String get helloWorld;
+  /// **'Loading data...'**
+  String get loadingData;
+
+  /// No description provided for @showMedia.
+  ///
+  /// In en, this message translates to:
+  /// **'Show Media'**
+  String get showMedia;
+
+  /// No description provided for @showMediaDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'If media are not able on app, tap here to see on browser.'**
+  String get showMediaDescription;
+
+  /// No description provided for @save.
+  ///
+  /// In en, this message translates to:
+  /// **'Save'**
+  String get save;
+
+  /// No description provided for @saveDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Save this content for quick access in future.'**
+  String get saveDescription;
+
+  /// No description provided for @saveonGallery.
+  ///
+  /// In en, this message translates to:
+  /// **'Save Image on Gallery'**
+  String get saveonGallery;
+
+  /// No description provided for @saveonGallerySaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Image save on Gallery'**
+  String get saveonGallerySaved;
+
+  /// No description provided for @shareMediaLink.
+  ///
+  /// In en, this message translates to:
+  /// **'Share media link'**
+  String get shareMediaLink;
+
+  /// No description provided for @shareAllContent.
+  ///
+  /// In en, this message translates to:
+  /// **'Share All Content'**
+  String get shareAllContent;
+
+  /// No description provided for @searchTextExemple.
+  ///
+  /// In en, this message translates to:
+  /// **'Single day: YYYY-MM-DD\nRange of days: YYYY-MM-DD/YYYY-MM-DD\nOr tap the calendar icon! Is much better'**
+  String get searchTextExemple;
+
+  /// No description provided for @bookmark.
+  ///
+  /// In en, this message translates to:
+  /// **'Bookmark'**
+  String get bookmark;
+
+  /// No description provided for @pictureDay.
+  ///
+  /// In en, this message translates to:
+  /// **'Image of the day'**
+  String get pictureDay;
+
+  /// No description provided for @alertSave.
+  ///
+  /// In en, this message translates to:
+  /// **'You not save any content yet'**
+  String get alertSave;
+
+  /// No description provided for @contentRemoved.
+  ///
+  /// In en, this message translates to:
+  /// **'Content removed'**
+  String get contentRemoved;
+
+  /// No description provided for @tryAgain.
+  ///
+  /// In en, this message translates to:
+  /// **'Try Again'**
+  String get tryAgain;
 }
 
 class _AppLocalizationsDelegate

@@ -1,4 +1,18 @@
 {
   "appTitle": "Astronomy Picture",
-  "helloWorld": "Hello World!"
+  "loadingData": "Loading data...",
+  "showMedia": "Show Media",
+  "showMediaDescription": "If media are not able on app, tap here to see on browser.",
+  "save": "Save",
+  "saveDescription": "Save this content for quick access in future.",
+  "saveonGallery": "Save Image on Gallery",
+  "saveonGallerySaved": "Image save on Gallery",
+  "shareMediaLink": "Share media link",
+  "shareAllContent": "Share All Content",
+  "searchTextExemple":"Single day: YYYY-MM-DD\nRange of days: YYYY-MM-DD/YYYY-MM-DD\nOr tap the calendar icon! Is much better",
+  "bookmark": "Bookmark",
+  "pictureDay": "Image of the day",
+  "alertSave":"You not save any content yet",
+  "contentRemoved":"Content removed",
+  "tryAgain": "Try Again"
 }
