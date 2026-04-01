@@ -50,8 +50,12 @@ dependencies:
   gallery_saver_plus: ^3.2.9
   shared_preferences: ^2.1.0
   timezone: ^0.9.2
-  syncfusion_flutter_datepicker: ^21.2.3
+  syncfusion_flutter_datepicker: 33.1.46
   url_launcher: ^6.3.0
+
+  flutter_localizations:
+    sdk: flutter
+  intl: ^0.20.2
 
 
 dev_dependencies:
@@ -71,7 +75,6 @@ dev_dependencies:
 # following page: https://dart.dev/tools/pub/pubspec
 
 
-
 flutter_launcher_icons:
   android: "launcher_icon"
   image_path: "assets/icon/icon.png"
@@ -80,11 +83,11 @@ flutter_launcher_icons:
 
 # The following section is specific to Flutter packages.
 flutter:
-
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
+  generate: true
   assets:
     - .env
     
