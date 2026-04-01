@@ -33,8 +33,6 @@ class FetchApodByRange extends UseCase<List<Apod>, String> {
           Left(ConvertFailure());
         }
       }
-    } else {
-      return Left(ConvertFailure());
     }
     if (query.length == 10) {
       try {

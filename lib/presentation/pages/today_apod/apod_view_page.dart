@@ -343,7 +343,7 @@ class _ApodViewPageState extends State<ApodViewPage> {
       SharePlus.instance.share(
         ShareParams(
           text:
-              "${apod.title}\n${apod.explanation}\n\nlink: $urlToShare\n\nby: ${copyrightBy}",
+              "${apod.title}\n${apod.explanation}\n\nlink: $urlToShare\n\nby: $copyrightBy",
         ),
       );
     }
