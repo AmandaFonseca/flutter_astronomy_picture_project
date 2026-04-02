@@ -10,6 +10,7 @@ import 'package:astronomy_picture/data/datasources/seacrh/search_datasource_remo
 import 'package:astronomy_picture/data/datasources/today_apod/today_apod_data_source_remote/today_apod_data_source.dart';
 import 'package:astronomy_picture/data/datasources/today_apod/today_apod_data_source_remote/today_apod_data_source_impl.dart';
 import 'package:astronomy_picture/data/repositories/bookmark/bookmark_repository_impl.dart';
+import 'package:astronomy_picture/data/repositories/core/translator_service.dart';
 import 'package:astronomy_picture/data/repositories/fetch_apods/fetch_apods_repository_impl.dart';
 import 'package:astronomy_picture/data/repositories/search/search_repository_impl.dart';
 
@@ -56,6 +57,10 @@ Future<void> setUpContainer() async {
   //routes
   getIt.registerSingleton<RouteGenerator>(RouteGenerator());
 
+  final translationService = TranslationService();
+  await translationService.init();
+  getIt.registerSingleton<TranslationService>(translationService);
+
   // Features
   apodToday();
   searchFeature();
@@ -65,7 +70,7 @@ Future<void> setUpContainer() async {
 
 void apodToday() {
   getIt.registerLazySingleton<TodayApodDataSource>(
-    () => TodayApodDataSourceImpl(client: getIt()),
+    () => TodayApodDataSourceImpl(client: getIt(), translator: getIt()),
   );
   getIt.registerLazySingleton<TodayApodRepository>(
     () => TodayApodRepositoryImpl(dataSource: getIt(), networkInfo: getIt()),
