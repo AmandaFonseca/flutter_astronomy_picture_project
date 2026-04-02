@@ -216,10 +216,21 @@ class _ApodViewPageState extends State<ApodViewPage> {
 
   Widget buildMediaType() {
     final double size = MediaQuery.of(context).size.width;
-    final String backgroundUrl = isImage
-        ? (apod.url ?? "")
-        : (apod.thumbnailUrl ??
-              "https://spaceplace.nasa.gov/gallery-space/en/NGC2336-galaxy.en.jpg");
+
+    const fallbackImage =
+        "https://spaceplace.nasa.gov/gallery-space/en/NGC2336-galaxy.en.jpg";
+
+    String safeImageUrl() {
+      if (isImage) {
+        return apod.url?.isNotEmpty == true ? apod.url! : fallbackImage;
+      } else {
+        return apod.thumbnailUrl?.isNotEmpty == true
+            ? apod.thumbnailUrl!
+            : fallbackImage;
+      }
+    }
+
+    final imageUrl = safeImageUrl();
 
     const borderRadius = BorderRadius.only(
       bottomLeft: Radius.circular(30.0),
@@ -227,65 +238,46 @@ class _ApodViewPageState extends State<ApodViewPage> {
     );
 
     if (isImage) {
-      Container(
-        height: size,
-        decoration: BoxDecoration(
-          borderRadius: borderRadius,
-          border: Border.all(color: CustomColors.white.withValues(alpha: .5)),
-          image: DecorationImage(
-            image: NetworkImage(backgroundUrl),
-            fit: BoxFit.cover,
-          ),
-        ),
-      );
-
       return GestureDetector(
         onTap: () {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (_) => SeeFullImage(url: apod.hdurl ?? apod.url ?? ""),
+              builder: (_) => SeeFullImage(
+                url: apod.hdurl?.isNotEmpty == true ? apod.hdurl! : imageUrl,
+              ),
             ),
           );
         },
         child: Container(
-          height: MediaQuery.of(context).size.width,
+          height: size,
           decoration: BoxDecoration(
-            image: DecorationImage(
-              image: NetworkImage(apod.url ?? ""),
-              fit: BoxFit.fitHeight,
-            ),
-            borderRadius: const BorderRadius.only(
-              bottomLeft: Radius.circular(30.0),
-              bottomRight: Radius.circular(30.0),
-            ),
+            borderRadius: borderRadius,
             border: Border.all(color: CustomColors.white.withValues(alpha: .5)),
-          ),
-        ),
-      );
-    } else {
-      return Container(
-        height: MediaQuery.of(context).size.width,
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: NetworkImage(
-              apod.thumbnailUrl ??
-                  "https://spaceplace.nasa.gov/gallery-space/en/NGC2336-galaxy.en.jpg",
+            image: DecorationImage(
+              image: NetworkImage(imageUrl),
+              fit: BoxFit.cover,
             ),
-            fit: BoxFit.fitHeight,
           ),
-          borderRadius: const BorderRadius.only(
-            bottomLeft: Radius.circular(30.0),
-            bottomRight: Radius.circular(30.0),
-          ),
-          border: Border.all(color: CustomColors.white.withValues(alpha: .5)),
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [ApodVideo(url: apod.url ?? "")],
         ),
       );
     }
+
+    return Container(
+      height: size,
+      decoration: BoxDecoration(
+        borderRadius: borderRadius,
+        border: Border.all(color: CustomColors.white.withValues(alpha: .5)),
+        image: DecorationImage(
+          image: NetworkImage(imageUrl),
+          fit: BoxFit.cover,
+        ),
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [ApodVideo(url: apod.url ?? "")],
+      ),
+    );
   }
 
   List<PopupMenuItem<int>> buildMenuButtons() {
