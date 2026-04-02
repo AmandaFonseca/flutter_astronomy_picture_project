@@ -81,9 +81,6 @@ class SearchApodPage extends SearchDelegate {
                         initialSelectedRange: _choosedDate,
                         backgroundColor: CustomColors.black,
                         todayHighlightColor: CustomColors.blue,
-                        headerStyle: DateRangePickerHeaderStyle(
-                          textStyle: TextStyle(color: CustomColors.white),
-                        ),
                         monthCellStyle: DateRangePickerMonthCellStyle(
                           textStyle: TextStyle(color: CustomColors.white),
                           disabledDatesTextStyle: const TextStyle(

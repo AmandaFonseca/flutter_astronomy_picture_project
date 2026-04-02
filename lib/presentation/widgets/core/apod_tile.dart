@@ -87,13 +87,6 @@ class ApodTile extends StatelessWidget {
                                       fontWeight: FontWeight.w900,
                                     ),
                                   ),
-                                  const SizedBox(height: 5),
-                                  Text(
-                                    apod.explanation ?? "",
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: TextStyle(color: CustomColors.white),
-                                  ),
                                 ],
                               ),
                             ),
