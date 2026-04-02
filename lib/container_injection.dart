@@ -112,7 +112,7 @@ void searchFeature() {
 
 void fetchApods() {
   getIt.registerLazySingleton<FetchApodsDataSource>(
-    () => FetchApodsDataSourceImpl(client: getIt()),
+    () => FetchApodsDataSourceImpl(client: getIt(), translator: getIt()),
   );
 
   getIt.registerLazySingleton<FetchApodsRepository>(
