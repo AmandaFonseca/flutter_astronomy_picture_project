@@ -1,6 +1,7 @@
 import 'package:astronomy_picture/container_injection.dart';
 import 'package:astronomy_picture/core/success.dart';
 import 'package:astronomy_picture/custom_colors.dart';
+import 'package:astronomy_picture/data/repositories/core/translator_service.dart';
 import 'package:astronomy_picture/domain/entities/apod.dart';
 import 'package:astronomy_picture/l10n/app_localizations.dart';
 import 'package:astronomy_picture/presentation/bloc/bookmark/bookmark_apod_bloc.dart';
@@ -24,20 +25,48 @@ class ApodViewPage extends StatefulWidget {
 class _ApodViewPageState extends State<ApodViewPage> {
   late Apod apod;
   late BookmarkApodBloc _bookmarkApodBloc;
+  late TranslationService _translator;
+
   IconData iconSave = Icons.bookmark_border;
 
+  bool _isTranslating = false;
   bool isImage = true;
   String urlToShare = "";
 
   @override
   void initState() {
+    super.initState();
     apod = widget.apod;
     _bookmarkApodBloc = getIt<BookmarkApodBloc>();
+    _translator = getIt<TranslationService>();
     _bookmarkApodBloc.input.add(
       IsSaveBookmarkApodEvent(date: DateConvert.dateToString(apod.date)),
     );
     checkMediaType();
-    super.initState();
+    _translateApod();
+  }
+
+  Future<void> _translateApod() async {
+    if (apod.title == null && apod.explanation == null) return;
+    setState(() => _isTranslating = true);
+    try {
+      final futures = [
+        if (apod.title != null) _translator.translate(apod.title!),
+        if (apod.explanation != null) _translator.translate(apod.explanation!),
+      ];
+      final results = await Future.wait(futures);
+      int index = 0;
+      final translatedApod = apod.copyWith(
+        title: apod.title != null ? results[index++] : null,
+        explanation: apod.explanation != null ? results[index++] : null,
+      );
+      setState(() {
+        apod = translatedApod;
+        _isTranslating = false;
+      });
+    } catch (_) {
+      setState(() => _isTranslating = false);
+    }
   }
 
   void checkMediaType() {
@@ -112,19 +141,23 @@ class _ApodViewPageState extends State<ApodViewPage> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            apod.title ?? "",
-                            style: TextStyle(
-                              fontSize: 22.0,
-                              color: CustomColors.white,
-                              fontWeight: FontWeight.w900,
-                            ),
-                          ),
+                          _isTranslating
+                              ? const LinearProgressIndicator()
+                              : Text(
+                                  apod.title ?? "",
+                                  style: TextStyle(
+                                    fontSize: 22,
+                                    color: CustomColors.white,
+                                    fontWeight: FontWeight.w900,
+                                  ),
+                                ),
                           const SizedBox(height: 10),
-                          Text(
-                            apod.explanation ?? "",
-                            style: TextStyle(color: CustomColors.white),
-                          ),
+                          _isTranslating
+                              ? const LinearProgressIndicator()
+                              : Text(
+                                  apod.explanation ?? "",
+                                  style: TextStyle(color: CustomColors.white),
+                                ),
                           const SizedBox(height: 10),
                           Text(
                             "by ${apod.copyright ?? "NASA"}",

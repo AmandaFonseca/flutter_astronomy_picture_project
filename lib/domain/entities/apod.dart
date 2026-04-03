@@ -35,4 +35,17 @@ class Apod extends Equatable {
     url,
     thumbnailUrl,
   ];
+
+  Apod copyWith({String? title, String? explanation}) {
+    return Apod(
+      title: title ?? this.title,
+      explanation: explanation ?? this.explanation,
+      date: date,
+      url: url,
+      hdurl: hdurl,
+      mediaType: mediaType,
+      thumbnailUrl: thumbnailUrl,
+      copyright: copyright,
+    );
+  }
 }

@@ -86,7 +86,7 @@ void searchFeature() {
     () => SearchLocalDataSourceImpl(sharedPreferences: getIt()),
   );
   getIt.registerLazySingleton<SearchRemoteDataSource>(
-    () => SearchRemoteDataSourceImpl(client: getIt()),
+    () => SearchRemoteDataSourceImpl(client: getIt(), translator: getIt()),
   );
 
   getIt.registerLazySingleton<SearchRepository>(

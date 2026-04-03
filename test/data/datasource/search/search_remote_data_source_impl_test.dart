@@ -4,7 +4,9 @@ import 'dart:io';
 import 'package:astronomy_picture/core/failure.dart';
 import 'package:astronomy_picture/data/datasources/seacrh/search_datasource_remote/search_remote_data_source_.dart';
 import 'package:astronomy_picture/data/datasources/seacrh/search_datasource_remote/search_remote_data_source_impl.dart';
+import 'package:astronomy_picture/data/repositories/core/translator_service.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:http/http.dart' as http;
 
@@ -12,9 +14,12 @@ import '../../../fixtures/fixtures.dart';
 import '../../../mocks/mocks.mocks.dart';
 import '../../../test_values.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import '../today_apod/today_apod_data_source_impl_test.mocks.dart';
 
+@GenerateNiceMocks([MockSpec<TranslationService>()])
 void main() {
   late MockClient client;
+  late MockTranslationService translator;
   late SearchRemoteDataSource remoteDataSource;
 
   setUpAll(() async {
@@ -24,7 +29,11 @@ void main() {
 
   setUp(() {
     client = MockClient();
-    remoteDataSource = SearchRemoteDataSourceImpl(client: client);
+    translator = MockTranslationService();
+    remoteDataSource = SearchRemoteDataSourceImpl(
+      client: client,
+      translator: translator,
+    );
   });
 
   group("Function fetchApodByDateRange", () {

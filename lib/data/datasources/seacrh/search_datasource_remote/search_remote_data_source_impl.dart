@@ -4,11 +4,13 @@ import 'package:astronomy_picture/core/constants/urls_constants.dart';
 import 'package:astronomy_picture/core/failure.dart';
 import 'package:astronomy_picture/data/datasources/seacrh/search_datasource_remote/search_remote_data_source_.dart';
 import 'package:astronomy_picture/data/models/apod_model.dart';
+import 'package:astronomy_picture/data/repositories/core/translator_service.dart';
 import 'package:http/http.dart' as http;
 
 class SearchRemoteDataSourceImpl implements SearchRemoteDataSource {
   final http.Client client;
-  SearchRemoteDataSourceImpl({required this.client});
+  final TranslationService translator;
+  SearchRemoteDataSourceImpl({required this.client, required this.translator});
 
   @override
   Future<List<ApodModel>> fetchApodByDateRange(
@@ -28,9 +30,16 @@ class SearchRemoteDataSourceImpl implements SearchRemoteDataSource {
 
     if (response.statusCode == 200) {
       final List jsonList = jsonDecode(utf8.decode(response.bodyBytes));
-      return jsonList
-          .map((item) => ApodModel.fromJson(item as Map<String, dynamic>))
-          .toList();
+      final List<Future<ApodModel>> translationTasks = jsonList.map((
+        item,
+      ) async {
+        final Map<String, dynamic> json = Map<String, dynamic>.from(item);
+        if (json['title'] != null) {
+          json['title'] = await translator.translate(json['title']);
+        }
+        return ApodModel.fromJson(json);
+      }).toList();
+      return await Future.wait(translationTasks);
     } else {
       throw ApiFailure();
     }

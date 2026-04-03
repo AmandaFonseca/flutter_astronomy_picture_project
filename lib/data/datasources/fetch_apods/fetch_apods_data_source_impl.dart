@@ -23,27 +23,25 @@ class FetchApodsDataSourceImpl implements FetchApodsDataSource {
       throw ApiFailure();
     }
     if (response.statusCode == 200) {
-      final List<ApodModel> apods = [];
+      final List jsonList = jsonDecode(utf8.decode(response.bodyBytes));
 
-      var json = jsonDecode(utf8.decode(response.bodyBytes));
-
-      for (final item in json) {
+      final List<Future<ApodModel>> translationTasks = jsonList.map((
+        item,
+      ) async {
         final Map<String, dynamic> json = Map<String, dynamic>.from(item);
 
-        if (json['title'] != null) {
-          json['title'] = await translator.translate(json['title']);
-        }
+        final itemFutures = [
+          if (json['title'] != null) translator.translate(json['title']),
+        ];
 
-        if (json['explanation'] != null) {
-          json['explanation'] = await translator.translate(json['explanation']);
-        }
+        final results = await Future.wait(itemFutures);
+        int index = 0;
+        if (json['title'] != null) json['title'] = results[index++];
 
-        apods.add(ApodModel.fromJson(json));
-      }
+        return ApodModel.fromJson(json);
+      }).toList();
 
-      return apods;
-
-      //return List.from(json.map((e) => ApodModel.fromJson(e)));
+      return await Future.wait(translationTasks);
     } else {
       throw ApiFailure();
     }
