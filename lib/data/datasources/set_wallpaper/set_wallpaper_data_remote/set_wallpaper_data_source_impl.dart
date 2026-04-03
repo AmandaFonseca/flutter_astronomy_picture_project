@@ -19,7 +19,13 @@ class SetWallpaperDataSourceImpl implements SetWallpaperDataSource {
 
       if (response.statusCode == 200) {
         final tempDir = await getTemporaryDirectory();
-        final file = File('${tempDir.path}/temp_apod_wallpaper.jpg');
+
+        final String fileName =
+            "wallpaper_${DateTime.now().millisecondsSinceEpoch}.jpg";
+        final file = File('${tempDir.path}/$fileName');
+
+        _clearOldWallpapers(tempDir);
+
         await file.writeAsBytes(response.bodyBytes);
 
         await AsyncWallpaper.setWallpaperFromFile(
@@ -37,5 +43,15 @@ class SetWallpaperDataSourceImpl implements SetWallpaperDataSource {
     } catch (e) {
       throw Exception("Technical failure in the DataSource: $e");
     }
+  }
+
+  void _clearOldWallpapers(Directory tempDir) {
+    try {
+      tempDir.listSync().forEach((file) {
+        if (file is File && file.path.contains("wallpaper_")) {
+          file.deleteSync();
+        }
+      });
+    } catch (_) {}
   }
 }
