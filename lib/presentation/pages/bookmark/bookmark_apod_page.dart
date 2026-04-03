@@ -124,20 +124,20 @@ class _BookmarkApodPageState extends State<BookmarkApodPage> {
         SnackBar(
           backgroundColor: CustomColors.black,
           content: Text(msg),
-          duration: const Duration(seconds: 6),
           onVisible: () {
-            Future.delayed(const Duration(seconds: 7), () {
+            Future.delayed(const Duration(seconds: 6), () {
               if (!_list.contains(_cacheApod)) {
                 _bloc.input.add(
                   RemoveSaveBookmarkApodEvent(
                     date: DateConvert.dateToString(_cacheApod!.date),
                   ),
                 );
+                ScaffoldMessenger.of(context).hideCurrentSnackBar();
               }
             });
           },
           action: SnackBarAction(
-            label: "Undo",
+            label: AppLocalizations.of(context)!.undo,
             onPressed: () {
               setState(() {
                 _list.insert(index, _cacheApod!);

@@ -14,5 +14,6 @@
   "pictureDay": "Image of the day",
   "alertSave":"You not save any content yet",
   "contentRemoved":"Content removed",
-  "tryAgain": "Try Again"
+  "tryAgain": "Try Again",
+  "undo": "Undo"
 }

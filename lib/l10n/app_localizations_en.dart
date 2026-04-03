@@ -57,4 +57,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get tryAgain => 'Try Again';
+
+  @override
+  String get undo => 'Undo';
 }

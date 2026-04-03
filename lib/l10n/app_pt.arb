@@ -15,5 +15,6 @@
   "alertSave":"Você ainda não salvou nenhum conteúdo.",
   "contentRemoved":"Conteúdo removido",
   "alertVideoformat":"Formato de vídeo não suportado",
-  "tryAgain": "Tentar novamente"
+  "tryAgain": "Tentar novamente",
+  "undo": "Desfazer"
 }
