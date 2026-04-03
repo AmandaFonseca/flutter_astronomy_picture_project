@@ -5,6 +5,7 @@ import 'package:astronomy_picture/data/repositories/core/translator_service.dart
 import 'package:astronomy_picture/domain/entities/apod.dart';
 import 'package:astronomy_picture/l10n/app_localizations.dart';
 import 'package:astronomy_picture/presentation/bloc/bookmark/bookmark_apod_bloc.dart';
+import 'package:astronomy_picture/presentation/bloc/set_wallpaper/wallpaper_bloc.dart';
 import 'package:astronomy_picture/presentation/core/date_convert.dart';
 import 'package:astronomy_picture/presentation/core/see_full_image.dart';
 import 'package:astronomy_picture/presentation/widgets/today_apod/apod_video.dart';
@@ -32,6 +33,7 @@ class _ApodViewPageState extends State<ApodViewPage> {
   bool _isTranslating = false;
   bool isImage = true;
   String urlToShare = "";
+  late WallpaperBloc _wallpaperBloc;
 
   @override
   void initState() {
@@ -44,6 +46,13 @@ class _ApodViewPageState extends State<ApodViewPage> {
     );
     checkMediaType();
     _translateApod();
+    _wallpaperBloc = getIt<WallpaperBloc>();
+  }
+
+  @override
+  void dispose() {
+    _wallpaperBloc.dispose();
+    super.dispose();
   }
 
   Future<void> _translateApod() async {
@@ -236,6 +245,35 @@ class _ApodViewPageState extends State<ApodViewPage> {
                         );
                       },
                     ),
+                    const SizedBox(width: 15),
+                    if (isImage)
+                      StreamBuilder<WallpaperState>(
+                        stream: _wallpaperBloc.output,
+                        builder: (context, snapshot) {
+                          final state = snapshot.data;
+
+                          if (state is WallpaperSuccess) {
+                            showSnackBar("Papel de parede aplicado!");
+                          } else if (state is WallpaperError) {
+                            showSnackBar(state.message);
+                          }
+
+                          return ApodViewButton(
+                            iconCustom: state is WallpaperLoading
+                                ? Icons.hourglass_empty
+                                : Icons.wallpaper,
+                            titleCustom: "Wallpaper",
+                            descriptionCustom: "Set background",
+                            onTapCustom: state is WallpaperLoading
+                                ? null
+                                : () => _wallpaperBloc.input.add(
+                                    SetWallpaperStarted(
+                                      apod.hdurl ?? apod.url!,
+                                    ),
+                                  ),
+                          );
+                        },
+                      ),
                   ],
                 ),
               ),
@@ -337,6 +375,16 @@ class _ApodViewPageState extends State<ApodViewPage> {
         onTap: sharedAllContent,
         child: Text(
           AppLocalizations.of(context)!.shareAllContent,
+          style: TextStyle(color: CustomColors.white),
+        ),
+      ),
+      PopupMenuItem(
+        value: 4,
+        onTap: () => _wallpaperBloc.input.add(
+          SetWallpaperStarted(apod.hdurl ?? apod.url!),
+        ),
+        child: Text(
+          "Set as Wallpaper",
           style: TextStyle(color: CustomColors.white),
         ),
       ),

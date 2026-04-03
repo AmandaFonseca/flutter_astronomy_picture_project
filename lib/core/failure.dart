@@ -25,3 +25,8 @@ class AccessLocalDataFailure extends Failure {
   @override
   String get msg => "Sorry! There was a problem acessing local data.";
 }
+
+class ServerFailure extends Failure {
+  @override
+  String get msg => "It was not possible to set the wallpaper.";
+}

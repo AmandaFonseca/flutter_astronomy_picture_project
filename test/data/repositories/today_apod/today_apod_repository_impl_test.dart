@@ -46,7 +46,6 @@ void main() {
       },
     );
 
-    // sem internet = falhar
     test(
       "Deve retornar uma Failure no lado esquerdo do tipo NoConnection",
       () async {

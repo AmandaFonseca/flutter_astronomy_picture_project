@@ -7,17 +7,21 @@ import 'package:astronomy_picture/data/datasources/seacrh/search_datasource_loca
 import 'package:astronomy_picture/data/datasources/seacrh/search_datasource_local/search_local_data_source_impl.dart';
 import 'package:astronomy_picture/data/datasources/seacrh/search_datasource_remote/search_remote_data_source_.dart';
 import 'package:astronomy_picture/data/datasources/seacrh/search_datasource_remote/search_remote_data_source_impl.dart';
+import 'package:astronomy_picture/data/datasources/set_wallpaper/set_wallpaper_data_remote/set_wallpaper_data_source.dart';
+import 'package:astronomy_picture/data/datasources/set_wallpaper/set_wallpaper_data_remote/set_wallpaper_data_source_impl.dart';
 import 'package:astronomy_picture/data/datasources/today_apod/today_apod_data_source_remote/today_apod_data_source.dart';
 import 'package:astronomy_picture/data/datasources/today_apod/today_apod_data_source_remote/today_apod_data_source_impl.dart';
 import 'package:astronomy_picture/data/repositories/bookmark/bookmark_repository_impl.dart';
 import 'package:astronomy_picture/data/repositories/core/translator_service.dart';
 import 'package:astronomy_picture/data/repositories/fetch_apods/fetch_apods_repository_impl.dart';
 import 'package:astronomy_picture/data/repositories/search/search_repository_impl.dart';
+import 'package:astronomy_picture/data/repositories/set_wallpaper/set_wallpaper_repository_impl.dart';
 
 import 'package:astronomy_picture/data/repositories/today_apod/today_apod_repository_impl.dart';
 import 'package:astronomy_picture/domain/repositores/bookmark/bookmark_repository.dart';
 import 'package:astronomy_picture/domain/repositores/fetch_apods/fetch_apods_repository.dart';
 import 'package:astronomy_picture/domain/repositores/search/search_repository.dart';
+import 'package:astronomy_picture/domain/repositores/set_wallpaper/set_wallpaper_repository.dart';
 import 'package:astronomy_picture/domain/repositores/today_apod/today_apod_repository.dart';
 import 'package:astronomy_picture/domain/usecases/bookmark/apod_is_save.dart';
 import 'package:astronomy_picture/domain/usecases/bookmark/fetch_all_apods_saved.dart';
@@ -27,11 +31,13 @@ import 'package:astronomy_picture/domain/usecases/fetch_apods/fetch_apods.dart';
 import 'package:astronomy_picture/domain/usecases/search/fecth_apod_by_range.dart';
 import 'package:astronomy_picture/domain/usecases/search/fetch_search_history.dart';
 import 'package:astronomy_picture/domain/usecases/search/update_search_history.dart';
+import 'package:astronomy_picture/domain/usecases/set_wallpaper/set_wallpaper.dart';
 import 'package:astronomy_picture/domain/usecases/today_apod/fetch_apod_today.dart';
 import 'package:astronomy_picture/presentation/bloc/bookmark/bookmark_apod_bloc.dart';
 import 'package:astronomy_picture/presentation/bloc/fetch_apods/fetch_apods_bloc.dart';
 import 'package:astronomy_picture/presentation/bloc/search/search_bloc.dart';
 import 'package:astronomy_picture/presentation/bloc/today_apod/today_apod_bloc.dart';
+import 'package:astronomy_picture/presentation/bloc/set_wallpaper/wallpaper_bloc.dart';
 import 'package:astronomy_picture/route_generator.dart';
 import 'package:get_it/get_it.dart';
 import 'package:http/http.dart' as http;
@@ -66,6 +72,7 @@ Future<void> setUpContainer() async {
   searchFeature();
   fetchApods();
   bookmarks();
+  setupWallpaper();
 }
 
 void apodToday() {
@@ -148,5 +155,16 @@ void bookmarks() {
       removeSaveApod: getIt(),
       saveApod: getIt(),
     ),
+  );
+}
+
+void setupWallpaper() {
+  getIt.registerFactory(() => WallpaperBloc(setWallpaperUseCase: getIt()));
+  getIt.registerLazySingleton(() => SetWallpaperUseCase(repository: getIt()));
+  getIt.registerLazySingleton<SetWallpaperRepository>(
+    () => SetWallpaperRepositoryImpl(dataSource: getIt()),
+  );
+  getIt.registerLazySingleton<SetWallpaperDataSource>(
+    () => SetWallpaperDataSourceImpl(getIt()),
   );
 }
