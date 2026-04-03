@@ -1,8 +1,10 @@
 import 'dart:io';
 import 'package:astronomy_picture/data/datasources/set_wallpaper/set_wallpaper_data_remote/set_wallpaper_data_source.dart';
+// ignore: depend_on_referenced_packages
 import 'package:async_wallpaper/async_wallpaper.dart';
 import 'package:dartz/dartz.dart';
 import 'package:http/http.dart' as http;
+// ignore: depend_on_referenced_packages
 import 'package:path_provider/path_provider.dart';
 
 class SetWallpaperDataSourceImpl implements SetWallpaperDataSource {

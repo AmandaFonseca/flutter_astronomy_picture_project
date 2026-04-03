@@ -16,5 +16,11 @@
   "contentRemoved":"Conteúdo removido",
   "alertVideoformat":"Formato de vídeo não suportado",
   "tryAgain": "Tentar novamente",
-  "undo": "Desfazer"
+  "undo": "Desfazer",
+  "by": "Direitos autorais",
+  "date":"Data",
+  "setWallpaper": "Definir como papel de parede",
+  "wallpaperUpdated": "Papel de parede atualizado com sucesso!",
+  "wallpaperError": "Falha ao definir o papel de parede. Tente novamente.",
+  "settingWallpaper": "Definindo papel de parede..."
 }

@@ -199,6 +199,42 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Undo'**
   String get undo;
+
+  /// No description provided for @by.
+  ///
+  /// In en, this message translates to:
+  /// **'by'**
+  String get by;
+
+  /// No description provided for @date.
+  ///
+  /// In en, this message translates to:
+  /// **'Date'**
+  String get date;
+
+  /// No description provided for @setWallpaper.
+  ///
+  /// In en, this message translates to:
+  /// **'Set as Wallpaper'**
+  String get setWallpaper;
+
+  /// No description provided for @wallpaperUpdated.
+  ///
+  /// In en, this message translates to:
+  /// **'Wallpaper updated successfully!'**
+  String get wallpaperUpdated;
+
+  /// No description provided for @wallpaperError.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to set wallpaper. Please try again.'**
+  String get wallpaperError;
+
+  /// No description provided for @settingWallpaper.
+  ///
+  /// In en, this message translates to:
+  /// **'Setting wallpaper...'**
+  String get settingWallpaper;
 }
 
 class _AppLocalizationsDelegate

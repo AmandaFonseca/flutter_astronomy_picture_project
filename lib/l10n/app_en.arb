@@ -15,5 +15,12 @@
   "alertSave":"You not save any content yet",
   "contentRemoved":"Content removed",
   "tryAgain": "Try Again",
-  "undo": "Undo"
+  "undo": "Undo",
+  "by": "by",
+  "date":"Date",
+  "setWallpaper": "Set as Wallpaper",
+  "wallpaperUpdated": "Wallpaper updated successfully!",
+  "wallpaperError": "Failed to set wallpaper. Please try again.",
+  "settingWallpaper": "Setting wallpaper..."
+
 }

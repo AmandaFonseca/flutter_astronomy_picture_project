@@ -61,4 +61,23 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get undo => 'Desfazer';
+
+  @override
+  String get by => 'Direitos autorais';
+
+  @override
+  String get date => 'Data';
+
+  @override
+  String get setWallpaper => 'Definir como papel de parede';
+
+  @override
+  String get wallpaperUpdated => 'Papel de parede atualizado com sucesso!';
+
+  @override
+  String get wallpaperError =>
+      'Falha ao definir o papel de parede. Tente novamente.';
+
+  @override
+  String get settingWallpaper => 'Definindo papel de parede...';
 }

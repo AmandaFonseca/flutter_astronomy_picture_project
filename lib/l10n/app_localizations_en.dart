@@ -60,4 +60,22 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get undo => 'Undo';
+
+  @override
+  String get by => 'by';
+
+  @override
+  String get date => 'Date';
+
+  @override
+  String get setWallpaper => 'Set as Wallpaper';
+
+  @override
+  String get wallpaperUpdated => 'Wallpaper updated successfully!';
+
+  @override
+  String get wallpaperError => 'Failed to set wallpaper. Please try again.';
+
+  @override
+  String get settingWallpaper => 'Setting wallpaper...';
 }

@@ -42,7 +42,7 @@ packages:
     source: hosted
     version: "2.13.0"
   async_wallpaper:
-    dependency: "direct dev"
+    dependency: "direct main"
     description:
       name: async_wallpaper
       sha256: "377062765eb90a3601379bfe20a3672720d577c204f08142aefc40d33f7f483f"

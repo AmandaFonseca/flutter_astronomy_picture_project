@@ -169,11 +169,11 @@ class _ApodViewPageState extends State<ApodViewPage> {
                                 ),
                           const SizedBox(height: 10),
                           Text(
-                            "by ${apod.copyright ?? "NASA"}",
+                            "${AppLocalizations.of(context)!.by} ${apod.copyright ?? "NASA"}",
                             style: TextStyle(color: CustomColors.white),
                           ),
                           Text(
-                            "Date ${DateConvert.dateToString(apod.date)} (YYYY-MM-DD)",
+                            "${AppLocalizations.of(context)!.date} ${DateConvert.dateToString(apod.date)} (YYYY-MM-DD)",
                             style: TextStyle(color: CustomColors.white),
                           ),
                         ],
@@ -384,7 +384,7 @@ class _ApodViewPageState extends State<ApodViewPage> {
           SetWallpaperStarted(apod.hdurl ?? apod.url!),
         ),
         child: Text(
-          "Set as Wallpaper",
+          AppLocalizations.of(context)!.setWallpaper,
           style: TextStyle(color: CustomColors.white),
         ),
       ),
