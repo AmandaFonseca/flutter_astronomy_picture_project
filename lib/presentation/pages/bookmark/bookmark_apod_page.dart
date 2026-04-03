@@ -132,7 +132,7 @@ class _BookmarkApodPageState extends State<BookmarkApodPage> {
                     date: DateConvert.dateToString(_cacheApod!.date),
                   ),
                 );
-                ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                ScaffoldMessenger.of(context).removeCurrentSnackBar();
               }
             });
           },
