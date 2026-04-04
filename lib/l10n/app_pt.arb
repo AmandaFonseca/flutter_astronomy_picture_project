@@ -22,5 +22,8 @@
   "setWallpaper": "Definir como papel de parede",
   "wallpaperUpdated": "Papel de parede atualizado com sucesso!",
   "wallpaperError": "Falha ao definir o papel de parede. Tente novamente.",
-  "settingWallpaper": "Definindo papel de parede..."
+  "settingWallpaper": "Definindo papel de parede...",
+  "settingWallpaperAlert":"A configuração do papel de parede pode levar alguns segundos...",
+  "wallpaperSuccess": "Papel de parede aplicado!",
+  "setBackground": "Definir plano de fundo"
 }

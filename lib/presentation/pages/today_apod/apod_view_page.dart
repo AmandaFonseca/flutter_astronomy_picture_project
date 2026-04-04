@@ -267,8 +267,18 @@ class _ApodViewPageState extends State<ApodViewPage> {
                         builder: (context, snapshot) {
                           final state = snapshot.data;
 
+                          if (state is WallpaperLoading) {
+                            showSnackBar(
+                              AppLocalizations.of(
+                                context,
+                              )!.settingWallpaperAlert,
+                            );
+                          }
+
                           if (state is WallpaperSuccess) {
-                            showSnackBar("Papel de parede aplicado!");
+                            showSnackBar(
+                              AppLocalizations.of(context)!.wallpaperSuccess,
+                            );
                           } else if (state is WallpaperError) {
                             showSnackBar(state.message);
                           }
@@ -278,7 +288,9 @@ class _ApodViewPageState extends State<ApodViewPage> {
                                 ? Icons.hourglass_empty
                                 : Icons.wallpaper,
                             titleCustom: "Wallpaper",
-                            descriptionCustom: "Set background",
+                            descriptionCustom: AppLocalizations.of(
+                              context,
+                            )!.setBackground,
                             onTapCustom: state is WallpaperLoading
                                 ? null
                                 : () => _wallpaperBloc.input.add(

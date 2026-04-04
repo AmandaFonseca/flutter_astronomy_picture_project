@@ -80,4 +80,14 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get settingWallpaper => 'Definindo papel de parede...';
+
+  @override
+  String get settingWallpaperAlert =>
+      'A configuração do papel de parede pode levar alguns segundos...';
+
+  @override
+  String get wallpaperSuccess => 'Papel de parede aplicado!';
+
+  @override
+  String get setBackground => 'Definir plano de fundo';
 }

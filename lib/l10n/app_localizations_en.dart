@@ -78,4 +78,14 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get settingWallpaper => 'Setting wallpaper...';
+
+  @override
+  String get settingWallpaperAlert =>
+      'Setting wallpaper may take a few seconds...';
+
+  @override
+  String get wallpaperSuccess => 'Wallpaper applied!';
+
+  @override
+  String get setBackground => 'Set background';
 }

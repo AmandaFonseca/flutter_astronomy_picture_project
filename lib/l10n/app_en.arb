@@ -21,6 +21,8 @@
   "setWallpaper": "Set as Wallpaper",
   "wallpaperUpdated": "Wallpaper updated successfully!",
   "wallpaperError": "Failed to set wallpaper. Please try again.",
-  "settingWallpaper": "Setting wallpaper..."
-
+  "settingWallpaper": "Setting wallpaper...",
+  "settingWallpaperAlert":"Setting wallpaper may take a few seconds...",
+  "wallpaperSuccess": "Wallpaper applied!",
+  "setBackground": "Set background"
 }

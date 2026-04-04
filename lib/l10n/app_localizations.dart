@@ -235,6 +235,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Setting wallpaper...'**
   String get settingWallpaper;
+
+  /// No description provided for @settingWallpaperAlert.
+  ///
+  /// In en, this message translates to:
+  /// **'Setting wallpaper may take a few seconds...'**
+  String get settingWallpaperAlert;
+
+  /// No description provided for @wallpaperSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Wallpaper applied!'**
+  String get wallpaperSuccess;
+
+  /// No description provided for @setBackground.
+  ///
+  /// In en, this message translates to:
+  /// **'Set background'**
+  String get setBackground;
 }
 
 class _AppLocalizationsDelegate

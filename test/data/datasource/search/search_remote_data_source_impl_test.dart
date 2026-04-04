@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:astronomy_picture/core/device_info.dart';
 import 'package:astronomy_picture/core/failure.dart';
 import 'package:astronomy_picture/data/datasources/seacrh/search_datasource_remote/search_remote_data_source_.dart';
 import 'package:astronomy_picture/data/datasources/seacrh/search_datasource_remote/search_remote_data_source_impl.dart';
@@ -15,11 +16,14 @@ import '../../../mocks/mocks.mocks.dart';
 import '../../../test_values.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import '../today_apod/today_apod_data_source_impl_test.mocks.dart';
+import 'search_remote_data_source_impl_test.mocks.dart'
+    hide MockTranslationService;
 
-@GenerateNiceMocks([MockSpec<TranslationService>()])
+@GenerateNiceMocks([MockSpec<TranslationService>(), MockSpec<DeviceInfo>()])
 void main() {
   late MockClient client;
   late MockTranslationService translator;
+  late MockDeviceInfo deviceInfo;
   late SearchRemoteDataSource remoteDataSource;
 
   setUpAll(() async {
@@ -30,9 +34,20 @@ void main() {
   setUp(() {
     client = MockClient();
     translator = MockTranslationService();
+    deviceInfo = MockDeviceInfo();
+
+    when(
+      deviceInfo.translateIfNeeded(any),
+    ).thenAnswer((inv) async => inv.positionalArguments[0]);
+
+    when(
+      translator.translate(any),
+    ).thenAnswer((inv) async => inv.positionalArguments[0]);
+
     remoteDataSource = SearchRemoteDataSourceImpl(
       client: client,
       translator: translator,
+      deviceInfo: deviceInfo,
     );
   });
 
