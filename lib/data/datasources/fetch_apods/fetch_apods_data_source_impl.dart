@@ -17,7 +17,7 @@ class FetchApodsDataSourceImpl implements FetchApodsDataSource {
     http.Response response;
     try {
       response = await client.get(
-        Uri.parse("${UrlsConstantes.apodUrl}&count=20"),
+        Uri.parse("${UrlsConstantes.apodUrl}&count=10"),
       );
     } catch (e) {
       throw ApiFailure();
