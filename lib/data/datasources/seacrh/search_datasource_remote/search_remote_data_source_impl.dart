@@ -5,12 +5,20 @@ import 'package:astronomy_picture/core/failure.dart';
 import 'package:astronomy_picture/data/datasources/seacrh/search_datasource_remote/search_remote_data_source_.dart';
 import 'package:astronomy_picture/data/models/apod_model.dart';
 import 'package:astronomy_picture/data/repositories/core/translator_service.dart';
+import 'package:astronomy_picture/core/device_info.dart';
+
 import 'package:http/http.dart' as http;
 
 class SearchRemoteDataSourceImpl implements SearchRemoteDataSource {
   final http.Client client;
   final TranslationService translator;
-  SearchRemoteDataSourceImpl({required this.client, required this.translator});
+  final DeviceInfo deviceInfo;
+
+  SearchRemoteDataSourceImpl({
+    required this.client,
+    required this.translator,
+    required this.deviceInfo,
+  });
 
   @override
   Future<List<ApodModel>> fetchApodByDateRange(
@@ -35,7 +43,7 @@ class SearchRemoteDataSourceImpl implements SearchRemoteDataSource {
       ) async {
         final Map<String, dynamic> json = Map<String, dynamic>.from(item);
         if (json['title'] != null) {
-          json['title'] = await translator.translate(json['title']);
+          json['title'] = await deviceInfo.translateIfNeeded(json['title']);
         }
         return ApodModel.fromJson(json);
       }).toList();
