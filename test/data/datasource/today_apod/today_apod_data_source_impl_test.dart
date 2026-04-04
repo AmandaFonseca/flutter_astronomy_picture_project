@@ -23,10 +23,7 @@ void main() {
 
     when(translator.translate(any)).thenAnswer((_) async => "translated text");
 
-    dataSource = TodayApodDataSourceImpl(
-      client: client,
-      translator: translator,
-    );
+    dataSource = TodayApodDataSourceImpl(client: client);
   });
 
   group("Function fetchTodayApod", () {

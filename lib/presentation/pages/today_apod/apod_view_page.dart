@@ -14,6 +14,7 @@ import 'package:flutter/material.dart';
 import 'package:gallery_saver_plus/gallery_saver.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'dart:ui';
 
 class ApodViewPage extends StatefulWidget {
   final Apod apod;
@@ -56,19 +57,23 @@ class _ApodViewPageState extends State<ApodViewPage> {
   }
 
   Future<void> _translateApod() async {
+    if (_deviceIsEnglish) return;
     if (apod.title == null && apod.explanation == null) return;
     setState(() => _isTranslating = true);
+
     try {
       final futures = [
-        if (apod.title != null) _translator.translate(apod.title!),
-        if (apod.explanation != null) _translator.translate(apod.explanation!),
+        if (apod.title != null) _translateIfNeeded(apod.title!),
+        if (apod.explanation != null) _translateIfNeeded(apod.explanation!),
       ];
+
       final results = await Future.wait(futures);
       int index = 0;
       final translatedApod = apod.copyWith(
         title: apod.title != null ? results[index++] : null,
         explanation: apod.explanation != null ? results[index++] : null,
       );
+
       setState(() {
         apod = translatedApod;
         _isTranslating = false;
@@ -76,6 +81,16 @@ class _ApodViewPageState extends State<ApodViewPage> {
     } catch (_) {
       setState(() => _isTranslating = false);
     }
+  }
+
+  bool get _deviceIsEnglish {
+    final locale = PlatformDispatcher.instance.locale;
+    return locale.languageCode.toLowerCase().startsWith('en');
+  }
+
+  Future<String> _translateIfNeeded(String text) async {
+    if (_deviceIsEnglish) return text;
+    return await _translator.translate(text);
   }
 
   void checkMediaType() {

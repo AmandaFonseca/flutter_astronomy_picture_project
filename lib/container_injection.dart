@@ -77,7 +77,7 @@ Future<void> setUpContainer() async {
 
 void apodToday() {
   getIt.registerLazySingleton<TodayApodDataSource>(
-    () => TodayApodDataSourceImpl(client: getIt(), translator: getIt()),
+    () => TodayApodDataSourceImpl(client: getIt()),
   );
   getIt.registerLazySingleton<TodayApodRepository>(
     () => TodayApodRepositoryImpl(dataSource: getIt(), networkInfo: getIt()),

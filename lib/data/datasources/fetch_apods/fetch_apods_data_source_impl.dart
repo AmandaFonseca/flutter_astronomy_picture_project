@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:ui';
 
 import 'package:astronomy_picture/core/constants/urls_constants.dart';
 import 'package:astronomy_picture/core/failure.dart';
@@ -31,7 +32,7 @@ class FetchApodsDataSourceImpl implements FetchApodsDataSource {
         final Map<String, dynamic> json = Map<String, dynamic>.from(item);
 
         final itemFutures = [
-          if (json['title'] != null) translator.translate(json['title']),
+          if (json['title'] != null) _translateIfNeeded(json['title']),
         ];
 
         final results = await Future.wait(itemFutures);
@@ -45,5 +46,15 @@ class FetchApodsDataSourceImpl implements FetchApodsDataSource {
     } else {
       throw ApiFailure();
     }
+  }
+
+  bool get _deviceIsEnglish {
+    final locale = PlatformDispatcher.instance.locale;
+    return locale.languageCode.toLowerCase().startsWith('en');
+  }
+
+  Future<String> _translateIfNeeded(String text) async {
+    if (_deviceIsEnglish) return text;
+    return await translator.translate(text);
   }
 }

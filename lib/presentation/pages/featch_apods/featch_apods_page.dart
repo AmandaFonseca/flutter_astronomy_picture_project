@@ -19,6 +19,7 @@ class _FetchApodsPageState extends State<FetchApodsPage> {
   final ScrollController _scrollController = ScrollController();
   late FetchApodsBloc _fetchApodsBloc;
   List<Apod> apodList = [];
+  bool _isLoadingMore = false;
 
   @override
   void initState() {
@@ -47,18 +48,23 @@ class _FetchApodsPageState extends State<FetchApodsPage> {
           ),
         ],
       ),
-      body: StreamBuilder(
+      body: StreamBuilder<FetchApodsState>(
         stream: _fetchApodsBloc.stream,
         builder: (context, snapshot) {
-          FetchApodsState? state = snapshot.data;
-          Widget child = const CircularProgressIndicator();
+          Widget bottomWidget = const Padding(
+            padding: EdgeInsets.symmetric(vertical: 32),
+            child: Center(child: CircularProgressIndicator()),
+          );
+
+          final state = snapshot.data;
 
           if (state is SuccessListFetchApods) {
+            _isLoadingMore = false;
             apodList.addAll(state.list);
           }
 
           if (state is ErrorFetchApodsState) {
-            child = ErrorApodWidget(
+            bottomWidget = ErrorApodWidget(
               msg: state.msg,
               onRetry: () {
                 apodList.clear();
@@ -68,37 +74,40 @@ class _FetchApodsPageState extends State<FetchApodsPage> {
             );
           }
 
+          if (apodList.isEmpty && state == null) {
+            return const Center(child: CircularProgressIndicator());
+          }
+
           return RefreshIndicator(
+            onRefresh: () async {
+              apodList.clear();
+              _fetchApodsBloc.input.add(MakeFetchApodsEvent());
+            },
             child: ListView.builder(
               controller: _scrollController,
               itemCount: apodList.length + 1,
               itemBuilder: (context, index) {
                 if (index < apodList.length) {
+                  final apod = apodList[index];
+
                   return Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: ApodTile(
-                      apod: apodList[index],
+                      apod: apod,
                       onTap: () {
                         Navigator.pushNamed(
                           context,
                           '/apodView',
-                          arguments: apodList[index],
+                          arguments: apod,
                         );
                       },
                     ),
                   );
-                } else {
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 32),
-                    child: Center(child: child),
-                  );
                 }
+
+                return bottomWidget;
               },
             ),
-            onRefresh: () async {
-              apodList.clear();
-              _fetchApodsBloc.input.add(MakeFetchApodsEvent());
-            },
           );
         },
       ),
@@ -116,13 +125,8 @@ class _FetchApodsPageState extends State<FetchApodsPage> {
           ),
         ],
         onTap: (value) {
-          if (value == 0) {
-            Navigator.pushNamed(context, '/bookmark');
-          }
-
-          if (value == 2) {
-            Navigator.pushNamed(context, '/apodToday');
-          }
+          if (value == 0) Navigator.pushNamed(context, '/bookmark');
+          if (value == 2) Navigator.pushNamed(context, '/apodToday');
         },
       ),
     );
