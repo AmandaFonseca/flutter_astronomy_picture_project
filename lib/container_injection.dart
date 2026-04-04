@@ -1,3 +1,4 @@
+import 'package:astronomy_picture/core/device_info.dart';
 import 'package:astronomy_picture/data/datasources/bookmark/bookmark_datasource_local/bookmark_apod_data_source.dart';
 import 'package:astronomy_picture/data/datasources/bookmark/bookmark_datasource_local/bookmark_apod_data_source_impl.dart';
 import 'package:astronomy_picture/data/datasources/fetch_apods/fetch_apods_data_source.dart';
@@ -67,6 +68,10 @@ Future<void> setUpContainer() async {
   await translationService.init();
   getIt.registerSingleton<TranslationService>(translationService);
 
+  getIt.registerLazySingleton<DeviceInfo>(
+    () => DeviceInfo(translator: getIt<TranslationService>()),
+  );
+
   // Features
   apodToday();
   searchFeature();
@@ -119,7 +124,11 @@ void searchFeature() {
 
 void fetchApods() {
   getIt.registerLazySingleton<FetchApodsDataSource>(
-    () => FetchApodsDataSourceImpl(client: getIt(), translator: getIt()),
+    () => FetchApodsDataSourceImpl(
+      client: getIt(),
+      translator: getIt(),
+      deviceInfo: getIt(),
+    ),
   );
 
   getIt.registerLazySingleton<FetchApodsRepository>(

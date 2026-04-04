@@ -51,7 +51,7 @@ class ApodTile extends StatelessWidget {
                         child: Center(
                           child: Icon(
                             Icons.play_circle_outline,
-                            color: Colors.white,
+                            color: Color.fromARGB(255, 109, 195, 18),
                             size: 80,
                           ),
                         ),

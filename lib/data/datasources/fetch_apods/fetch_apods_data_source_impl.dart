@@ -1,7 +1,7 @@
 import 'dart:convert';
-import 'dart:ui';
 
 import 'package:astronomy_picture/core/constants/urls_constants.dart';
+import 'package:astronomy_picture/core/device_info.dart';
 import 'package:astronomy_picture/core/failure.dart';
 import 'package:astronomy_picture/data/datasources/fetch_apods/fetch_apods_data_source.dart';
 import 'package:astronomy_picture/data/models/apod_model.dart';
@@ -11,7 +11,12 @@ import 'package:http/http.dart' as http;
 class FetchApodsDataSourceImpl implements FetchApodsDataSource {
   final http.Client client;
   final TranslationService translator;
-  FetchApodsDataSourceImpl({required this.client, required this.translator});
+  final DeviceInfo deviceInfo;
+  FetchApodsDataSourceImpl({
+    required this.client,
+    required this.translator,
+    required this.deviceInfo,
+  });
 
   @override
   Future<List<ApodModel>> fetchApods() async {
@@ -32,7 +37,8 @@ class FetchApodsDataSourceImpl implements FetchApodsDataSource {
         final Map<String, dynamic> json = Map<String, dynamic>.from(item);
 
         final itemFutures = [
-          if (json['title'] != null) _translateIfNeeded(json['title']),
+          if (json['title'] != null)
+            deviceInfo.translateIfNeeded(json['title']),
         ];
 
         final results = await Future.wait(itemFutures);
@@ -46,15 +52,5 @@ class FetchApodsDataSourceImpl implements FetchApodsDataSource {
     } else {
       throw ApiFailure();
     }
-  }
-
-  bool get _deviceIsEnglish {
-    final locale = PlatformDispatcher.instance.locale;
-    return locale.languageCode.toLowerCase().startsWith('en');
-  }
-
-  Future<String> _translateIfNeeded(String text) async {
-    if (_deviceIsEnglish) return text;
-    return await translator.translate(text);
   }
 }
