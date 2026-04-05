@@ -380,7 +380,7 @@ class _ApodViewPageState extends State<ApodViewPage> {
 
   List<PopupMenuItem<int>> buildMenuButtons() {
     return [
-      if (isImage)
+      if (isImage) ...[
         PopupMenuItem(
           value: 1,
           onTap: saveOnGallery,
@@ -389,6 +389,17 @@ class _ApodViewPageState extends State<ApodViewPage> {
             style: TextStyle(color: CustomColors.white),
           ),
         ),
+        PopupMenuItem(
+          value: 4,
+          onTap: () => _wallpaperBloc.input.add(
+            SetWallpaperStarted(apod.hdurl ?? apod.url!),
+          ),
+          child: Text(
+            AppLocalizations.of(context)!.setWallpaper,
+            style: TextStyle(color: CustomColors.white),
+          ),
+        ),
+      ],
       PopupMenuItem(
         value: 2,
         onTap: shareOnlyLink,
@@ -402,16 +413,6 @@ class _ApodViewPageState extends State<ApodViewPage> {
         onTap: sharedAllContent,
         child: Text(
           AppLocalizations.of(context)!.shareAllContent,
-          style: TextStyle(color: CustomColors.white),
-        ),
-      ),
-      PopupMenuItem(
-        value: 4,
-        onTap: () => _wallpaperBloc.input.add(
-          SetWallpaperStarted(apod.hdurl ?? apod.url!),
-        ),
-        child: Text(
-          AppLocalizations.of(context)!.setWallpaper,
           style: TextStyle(color: CustomColors.white),
         ),
       ),
